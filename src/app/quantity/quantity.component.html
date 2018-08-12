@@ -1,0 +1,17 @@
+<!-- <div id=quantitymodal>
+<input type="text" [(ngModel)]="quantity" name="firstName" required class="form-control" id="quantity" placeholder="quantity">
+<button (click)="save()">save</button>
+<button>cancel</button>
+</div> -->
+<h2 mat-dialog-title>quantity</h2>
+
+<mat-dialog-content >
+  <input type="number" [(ngModel)]="quantity" name="firstName" required class="form-control" id="quantity" placeholder="quantity">
+  <span>per:{{measure}}</span>
+</mat-dialog-content>
+
+
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()">Save</button>
+</mat-dialog-actions>

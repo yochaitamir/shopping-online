@@ -1,0 +1,146 @@
+
+ <div  class="container">
+
+  <div class="row">
+      <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+      <form  novalidate
+     
+      #f="ngForm">
+        <h2>WellCome to our shop</h2><h4>if youre a member please <a (click)="signUpForm()">sign in </a>if its your first time please <a (click)="registerForm()">register</a></h4>
+        <hr class="colorgraph">
+        <div *ngIf="show" class="formunit">
+        <div class="row" *ngIf="signupButton">
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group" 
+            [ngClass]="{
+              'has-warning': firstName.invalid && (firstName.dirty || firstName.touched),
+              'has-success': firstName.valid && (firstName.dirty || firstName.touched)
+         }">First Name
+                          <input type="text" #firstName="ngModel" [(ngModel)]="customerDetails.firstname"  required name="first_name" id="first_name" class="form-control input-lg" placeholder="First Name" tabindex="1">
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group"
+            [ngClass]="{
+              'has-warning': lastName.invalid && (lastName.dirty || lastName.touched),
+              'has-success': lastName.valid && (lastName.dirty || lastName.touched)
+         }">Last Name
+              <input type="text" #lastName="ngModel" [(ngModel)]="customerDetails.lastname" required name="last_name" id="last_name" class="form-control input-lg" placeholder="Last Name" tabindex="2">
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-group">
+          <input type="text" name="display_name" id="display_name" class="form-control input-lg" placeholder="Display Name" tabindex="3">
+        </div> -->
+        <div *ngIf="signup" class="form-group" [ngClass]="{
+          'has-warning': cusid.invalid && (cusid.dirty || cusid.touched),
+          'has-success':cusid.valid 
+     }">Id
+          <input type="number" #cusid="ngModel" [(ngModel)]="customerDetails.cusid" required name="id" id="id" class="form-control input-lg" placeholder="Id" tabindex="4">
+        </div>
+        <div *ngIf="signup" class="form-group" [ngClass]="{
+          'has-warning': email.invalid && (email.dirty || email.touched),
+          'has-success': email.valid 
+     }">email
+          <input type="email" #email="ngModel" [(ngModel)]="customerDetails.email" required pattern="[^ @]*@[^ @]*" name="email" id="email" class="form-control input-lg" placeholder="Email Address" tabindex="4">
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group"
+            [ngClass]="{
+              'has-warning': password.invalid && (password.dirty || password.touched),
+              'has-success': password.valid 
+         }">Password
+              <input type="password" #password="ngModel" [(ngModel)]="customerDetails.password" required name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="5">
+            </div>
+          </div>
+          <div *ngIf="signup" class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group" 
+            [ngClass]="{
+              'has-warning':customerDetails.passwordconfirm!=customerDetails.password || passwordconfirm.invalid && (passwordconfirm.dirty || passwordconfirm.touched),
+              'has-success':customerDetails.passwordconfirm==customerDetails.password&& passwordconfirm.valid 
+         }">Confirm Password
+              <input type="password" #passwordconfirm="ngModel" [(ngModel)]="customerDetails.passwordconfirm" required name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Confirm Password" tabindex="6">
+            </div>
+          </div>
+        </div>
+        
+        
+        <hr class="colorgraph">
+        <div class="row">
+          <div *ngIf="registerButton" class="col-xs-12 col-md-6"><input type="submit" (click)="register()" routerlink="/regcomp" [disabled]="f.invalid||customerDetails.passwordconfirm!=customerDetails.password"   value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7"></div>
+          <div  *ngIf="signupButton" class="col-xs-12 col-md-6"><a href="#" (click)="signIn()" class="btn btn-success btn-block btn-lg">Sign In</a></div>
+        </div>
+      </div>
+      </form>
+    
+    </div>
+  </div>
+  
+ </div>  
+  <!-- <li routerLink="/router" >Terms and Conditions</li>
+  <li routerLink="/edit/2" >children route</li> -->
+  {{loginstatus}}
+  
+  <div *ngIf="regcomp">
+  
+  <div class="container">
+    <form  novalidate
+        
+        #f="ngForm">
+      <div class="form-group row">
+        <label for="citySelect" class="col-sm-2 col-form-label">City</label>
+        <div class="col-sm-10">
+          <select class="form-control" [(ngModel)]="customerDetails.city"  required name="city" class="custom-select" id=citySelect>
+            <option value=3000>Jerusalem</option>
+            <option  value="5000" >Tel Aviv</option>
+            <option value="4000">Haifa</option>
+            <option value="9000">Beer Sheva</option>
+            <option value=70>Ashdod</option>
+            <option  value="7900" >Petach-Tikva</option>
+            <option value="8300">Rishon-Letzion</option>
+            <option value="8600">Ramat-Gan</option>
+            <option value=6600>holon</option>
+            <option  value="3570" >Ariel</option>
+            <option value="2600">Eilat</option>
+            <option value="9300">zichron- Yaakov</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{
+        'has-warning': street.invalid && (street.dirty || street.touched),
+        'has-success': street.valid && (street.dirty || street.touched)
+   }">
+        <label for="inputStreet" class="col-sm-2 col-form-label">street</label>
+        <div class="col-sm-10">
+          <input type="text" #street="ngModel" [(ngModel)]="customerDetails.street" required name="street" class="form-control" id="inputStreet" placeholder="Street">
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{
+        'has-warning': name.invalid && (name.dirty || name.touched),
+        'has-success': name.valid && (name.dirty || name.touched)
+   }">
+        <label for="inputName" class="col-sm-2 col-form-label">First Name</label>
+        <div class="col-sm-10">
+          <input type="text" #name="ngModel" [(ngModel)]="customerDetails.firstName" name="firstName" required class="form-control" id="inputName" placeholder="First Name">
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{
+        'has-warning': lastname.invalid && (lastname.dirty || lastname.touched),
+        'has-success': lastname.valid && (lastname.dirty || lastname.touched)
+   }">
+        <label for="inputPassword3" class="col-sm-2 col-form-label">Last Name</label>
+        <div class="col-sm-10">
+          <input type="text" #lastname="ngModel" [(ngModel)]="customerDetails.lastName" name="lastName" required class="form-control" id="inputPassword3" placeholder="Last Name">
+        </div>
+      </div>
+      
+      
+      <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+          <button type="submit" (click)="compregister()" [disabled]="f.invalid" class="btn btn-primary">Sign in</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

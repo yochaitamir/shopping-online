@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GetDataService } from './get-data.service'
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  userdetails:any
+  name:string
+  constructor(private getdata: GetDataService) { }
+  ngOnInit() {
+    this.userDetails();
+    }
+    userDetails(){
+      this.userdetails=this.getdata.getUserDetails()
+      this.userdetails.subscribe(res=>{
+        if(res.json().loggedin==true){
+          this.name=undefined
+        }else{
+        this.name=res.json().name;
+        }
+      })
+    }
 }

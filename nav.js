@@ -236,6 +236,41 @@ router.delete('/deleteproduct/:id', (req, res) => {
   })
 
 })
+router.get('/getcustomerdetails',(req,res)=>{
+  con.query(`SELECT id ,orders.creditCard,customer.cityId,customer.street FROM Orders INNER JOIN Customer ON Orders.customerId=Customer.Cusid WHERE Customer.Cusid='${req.session.cusid}'`, (err, rows) => {
+    if (err) {
+      console.log(err);
+    }
+    else if(rows.length>0){
+      res.send(JSON.stringify(rows))
+      console.log(rows)
+    }else{
+  
+  
+  con.query(`SELECT * FROM customer WHERE cusid=${req.session.cusid}`, (err, rows) => {
+    if (err) {
+      console.log(err);
+    }
+    else{
+      res.send(JSON.stringify(rows))
+    }
+  
+
+})
+}})
+})
+router.post('/setorder', (req, res) => {
+  console.log( req.body); 
+  con.query(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}',NOW(),'${req.body.orderDate}',${req.body.creditCard})`, (err, rows) => {
+    if (err) {
+      console.log(err);
+    }
+    else{
+      res.send("ok")
+    }
+  })
+
+})
 
 router.use('*', function (req, res) {
   res.sendFile(path.join(__dirname + '/dist/Shopping-Online/index.html'));

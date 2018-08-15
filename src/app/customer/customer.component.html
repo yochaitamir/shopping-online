@@ -23,12 +23,13 @@
         <tr *ngFor="let cartproduct of cartproducts">
             <td style="color:red;cursor: pointer;display: block;" (click)="deleteProduct(cartproduct)">x</td>
           <td>{{cartproduct.quantity}}</td>
-            <td>{{cartproduct.quantity}}</td>
+            <td>{{cartproduct.productname}}</td>
             <td>{{cartproduct.price}} per:{{cartproduct.measure}}</td>
             <td>{{cartproduct.price*cartproduct.quantity}}</td>
         </tr>
     </table>
   </div>
+  <button *ngIf="total>0" id=order routerLink="/cartOrder">order</button>
   <div >
     <h3 *ngIf="total>0" id=totalprice>totalprice:{{total}}</h3>
     </div>

@@ -1,0 +1,62 @@
+<div id=orderdetailform>
+<div class="container">
+  <form  novalidate
+      
+      #f="ngForm">
+    <div class="form-group row">
+      <label for="citySelect" class="col-sm-2 col-form-label">City</label>
+      <div class="col-sm-10">
+        <select class="form-control" [(ngModel)]="orderDetails.cityId"  required name="city" class="custom-select" id=citySelect>
+          <option  value=3000>Jerusalem</option>
+          <option value="3000">Jerusalem</option>
+          <option  value="5000" >Tel Aviv</option>
+          <option value="4000">Haifa</option>
+          <option value="9000">Beer Sheva</option>
+          <option value=70>Ashdod</option>
+          <option  value="7900" >Petach-Tikva</option>
+          <option value="8300">Rishon-Letzion</option>
+          <option value="8600">Ramat-Gan</option>
+          <option value=6600>holon</option>
+          <option  value="3570" >Ariel</option>
+          <option value="2600">Eilat</option>
+          <option value="9300">zichron- Yaakov</option>
+        </select>
+      </div>
+    </div>
+    <div (dblclick)="getStreet()" class="form-group row" [ngClass]="{
+      'has-warning': street.invalid && (street.dirty || street.touched),
+      'has-success': street.valid && (street.dirty || street.touched)
+ }">
+      <label for="inputStreet" class="col-sm-2 col-form-label">street</label>
+      <div class="col-sm-10">
+        <input type="text" #street="ngModel"  [(ngModel)]="orderDetails.street" required name="street" class="form-control" id="inputStreet" placeholder="Street">
+      </div>
+    </div>
+    <div class="form-group row" [ngClass]="{
+      'has-warning': orderDate.invalid && (orderDate.dirty || orderDate.touched),
+      'has-success': orderDate.valid && (orderDate.dirty || orderDate.touched)
+ }">
+      <label for="inputName" class="col-sm-2 col-form-label">shipping date</label>
+      <div class="col-sm-10">
+        <input type="date" #orderDate="ngModel" [(ngModel)]="orderDetails.orderDate" name="shippingdate" required class="form-control" id="shippingdate">
+      </div>
+    </div>
+    <div class="form-group row" [ngClass]="{
+      'has-warning': creditCard.invalid && (creditCard.dirty || creditCard.touched),
+      'has-success': creditCard.valid && (creditCard.dirty || creditCard.touched)
+ }">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">credit card number</label>
+      <div class="col-sm-10">
+        <input type="number" #creditCard="ngModel" [(ngModel)]="orderDetails.creditCard" name="creditcard" required class="form-control" id="creditcard" placeholder="creditcard">
+      </div>
+    </div>
+    
+    
+    <div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+        <button type="submit" (click)="setOrder()" [disabled]="f.invalid||!orderDetails.orderDate" class="btn btn-primary">order</button>
+      </div>
+    </div>
+  </form>
+</div>
+</div>

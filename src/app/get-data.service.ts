@@ -62,5 +62,11 @@ return this.http.delete('http://localhost:8080/deleteproduct/'+product.productId
 
 
 }
+getCustomerDetails():Observable<Response>{
+  return this.http.get('http://localhost:8080/getcustomerdetails')
+}
+setOrder(orderDetails):Observable<Response>{
+  return this.http.post('http://localhost:8080/setorder',orderDetails)
+}
 }
 

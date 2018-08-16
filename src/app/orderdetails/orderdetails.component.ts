@@ -14,6 +14,8 @@ export class OrderdetailsComponent implements OnInit {
   @ViewChild('f') form: any;
   customerDetails: Customers = new Customers;
   cusDetails:any;
+  checkout:any;
+  datefullerr:string;
   constructor(private getdata: GetDataService) { }
 
   ngOnInit() {
@@ -28,7 +30,15 @@ export class OrderdetailsComponent implements OnInit {
 }
 setOrder(){
   this.getdata.setOrder(this.orderDetails).subscribe(
-    res=>console.log(res)
+    res=>{this.checkout=res.json();
+      console.log(res);
+      if(this.checkout.datefull==true){
+        this.datefullerr="this date is full please choose another date"
+      }else if(this.checkout.datefull==false){
+        this.datefullerr="your order is on its way,thankyou ang come again"
+      }else if(this.checkout.datefull=="interaction completed")
+      {this.datefullerr=this.checkout.datefull;
+    }}
   )
 
 }

@@ -129,7 +129,7 @@ router.get('/checkforopencart', (req, res) => {
     } else if (rows.length > 0) {
       console.log("cartopen");
       req.session.cartid = rows[0].cartid
-      
+      req.session.createdate=rows[0].createDate
       res.send({
         "cartopen": true
       })
@@ -185,15 +185,17 @@ router.post('/startshopping', (req, res,next) => {
     }
     else{
       console.log("startshopping")
-      con.query(`SELECT cartid FROM shopingcart WHERE customerId=${req.session.cusid}`, (err, rows) => {
+      con.query(`SELECT cartid FROM shopingcart WHERE customerId=${req.session.cusid} AND isopen=0`, (err, rows) => {
         if(err){
           console.log(err);
         
-        }else{
+        }else if(rows.length> 0){
           
         req.session.cartid = rows[0].cartid
         next();
-        }  
+        } else{
+          next()
+        } 
         })
       }
     })
@@ -260,15 +262,44 @@ router.get('/getcustomerdetails',(req,res)=>{
 }})
 })
 router.post('/setorder', (req, res) => {
-  console.log( req.body); 
-  con.query(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}',NOW(),'${req.body.orderDate}',${req.body.creditCard})`, (err, rows) => {
+  con.query(`SELECT id FROM orders WHERE cartId=${req.session.cartid}`, (err, rows) => {
+    console.log(rows.length<1);
+    if (err) {console.log(err);
+    }
+    else if(rows.length<1){
+  con.query(`SELECT id FROM orders WHERE orderDate='${req.body.orderDate}'`, (err, rows) => {
+    console.log(rows.length);
+    if (err) {
+      console.log(err);
+    }
+    else if(rows.length<3){
+      console.log(rows.length);
+      
+    
+  con.query(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}','${req.session.createdate}','${req.body.orderDate}',${req.body.creditCard})`, (err, rows) => {
     if (err) {
       console.log(err);
     }
     else{
-      res.send("ok")
+      
+      con.query(`UPDATE shopingcart SET isopen=1 WHERE cartid=${req.session.cartid} AND customerId=${req.session.cusid}`, (err, rows) => {
+        if (err) {
+          console.log(err);
+        }
+        else{
+          
+          res.send({"datefull":false})
+        }
+      })
     }
   })
+}else{
+  res.send({"datefull":true})
+}
+})}
+else{
+  res.send({"datefull":"interaction completed"});
+}})
 
 })
 

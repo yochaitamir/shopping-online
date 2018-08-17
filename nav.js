@@ -204,7 +204,12 @@ router.post('/startshopping', (req, res,next) => {
        
 
 router.post('/addproduct', (req, res) => {
-  console.log( req.session.cartid); 
+  console.log( "in"+req.session.cartid);
+  con.query(`SELECT quantity FROM cartproducts WHERE cartId=${req.session.cartid} AND productId=${req.body.id}`, (err, rows) => {
+    
+    if (err) {
+      console.log(err);
+    } else if(rows.length<1){
   con.query(`INSERT INTO cartproducts (productId, quantity, price, cartId,productname,measure) VALUES (${req.body.id},${req.body.quantity},${req.body.price},${req.session.cartid},'${req.body.productname}','${req.body.measure}')`, (err, rows) => {
     if (err) {
       console.log(err);
@@ -212,8 +217,17 @@ router.post('/addproduct', (req, res) => {
     else{
       res.send("ok")
     }
-  })
-
+  })}else{
+    con.query(`UPDATE cartproducts SET quantity=${req.body.quantity} WHERE cartId=${req.session.cartid} AND productId=${req.body.id}`, (err, rows) => {
+      if (err) {
+        console.log(err);
+      }
+      else{
+        res.send("ok")
+      }
+    })
+  }
+})
 })
 router.get('/getcart',(req,res)=>{
   
@@ -223,6 +237,22 @@ router.get('/getcart',(req,res)=>{
     }
     else{
       res.send(JSON.stringify(rows))
+    }
+  })
+})
+router.get('/getproductquantity/:productId',(req,res)=>{
+  
+  con.query(`SELECT quantity FROM cartproducts WHERE cartId=${req.session.cartid} AND productId=${req.params.productId}`, (err, rows) => {
+    
+    if (err) {
+      console.log(err);
+    }
+    else if(rows.length>0){
+      
+      res.send(JSON.stringify(rows[0]))
+    }else{
+     
+      res.send({"quantity":null})
     }
   })
 })

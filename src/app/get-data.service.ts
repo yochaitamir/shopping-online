@@ -68,5 +68,9 @@ getCustomerDetails():Observable<Response>{
 setOrder(orderDetails):Observable<Response>{
   return this.http.post('http://localhost:8080/setorder',orderDetails)
 }
+getDialogQuantity(productId):Observable<Response>{
+  return this.http.get('http://localhost:8080/getproductquantity/'+productId)
+
+}
 }
 

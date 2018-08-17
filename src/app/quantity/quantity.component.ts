@@ -14,11 +14,12 @@ measure:string;
     private dialogRef: MatDialogRef<QuantityComponent>,
     @Inject(MAT_DIALOG_DATA) data
     ) {
-      this.measure=data.measure
+      this.measure=data.measure;
+      this.quantity=data.quantity;
      }
 
   ngOnInit() {
-    
+    console.log(this.quantity)
   }
   save() {
     this.dialogRef.close(this.quantity);

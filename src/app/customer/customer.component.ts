@@ -28,6 +28,7 @@ export class CustomerComponent implements OnInit {
     subtotal:number;
     total:number;
     allowshopping:boolean=false;
+    productQuantity:number;
     constructor(private getdata: GetDataService,public dialog: MatDialog,private _elementRef : ElementRef) { }
 
     ngOnInit() {
@@ -36,7 +37,16 @@ export class CustomerComponent implements OnInit {
         this.checkforopencart()
         
     }
-    openDialog(product) {
+    checkForQuantity(product){
+        this.getdata.getDialogQuantity(product.id).subscribe(
+            
+            res=>{this.productQuantity=res.json().quantity
+                this.openDialog(product,this.productQuantity)
+            console.log(this.productQuantity)
+            }
+        )
+    }
+    openDialog(product,productquantity) {
         if(this.allowshopping){
         const dialogConfig = new MatDialogConfig();
     
@@ -47,14 +57,15 @@ export class CustomerComponent implements OnInit {
         //     id: 1,
         //     title: 'Angular For Beginners'
         // };
-    
+    console.log(product.id)
         
         
         const dialogRef = this.dialog.open(QuantityComponent,{
             height: '200px',
             width: '200px',
             data: {
-                measure: product.measure
+                measure: product.measure,
+                quantity:productquantity
               }
             
           });

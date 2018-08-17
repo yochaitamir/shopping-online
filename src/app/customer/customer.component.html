@@ -46,7 +46,7 @@
      <div id=productsincategory>
         <div  *ngFor="let product of productsInCategory">
           <div id=productsdisplay>
-          <span id=product  (click)="openDialog(product)"><span>{{product.productname}}</span><br>
+          <span id=product  (click)="checkForQuantity(product)"><span>{{product.productname}}</span><br>
           price:<span>{{product.price}}</span><br>per:{{product.measure}}</span>
         </div>
         </div>

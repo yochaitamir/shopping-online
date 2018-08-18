@@ -14,13 +14,13 @@
 
   <td>{{cartproduct.quantity}}</td>
     <td [class.insearch]="cartproduct.productname.includes(searchincartst)&&searchincartst!=''" >{{cartproduct.productname}}</td>
-    <td>{{cartproduct.price}} per:{{cartproduct.measure}}</td>
-    <td>{{cartproduct.price*cartproduct.quantity}}</td>
+    <td>{{cartproduct.price| currency:'ILS':"symbol-narrow"}} per:{{cartproduct.measure}}</td>
+    <td>{{cartproduct.price*cartproduct.quantity| currency:'ILS':"symbol-narrow"}}</td>
 </tr>
 </table>
 </div>
 <div >
-  <h3 *ngIf="total>0" id=totalpricerec>totalprice:{{total}}</h3>
+  <h3 *ngIf="total>0" id=totalpricerec>totalprice:{{total| currency:'ILS':"symbol-narrow"}}</h3>
   </div>
 </div>
   <div id=orderdetails><app-orderdetails [totalPrice]="total"></app-orderdetails></div>

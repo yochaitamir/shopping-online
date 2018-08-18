@@ -32,13 +32,13 @@
         <input type="text" #street="ngModel"  [(ngModel)]="orderDetails.street" required name="street" class="form-control" id="inputStreet" placeholder="Street">
       </div>
     </div>
-    <div class="form-group row" [ngClass]="{
+    <div class="form-group row" [class.has-warning]="pastdate==false" [class.has-success]="pastdate==true" [ngClass]="{
       'has-warning': orderDate.invalid && (orderDate.dirty || orderDate.touched),
       'has-success': orderDate.valid && (orderDate.dirty || orderDate.touched)
  }">
       <label for="inputName" class="col-sm-2 col-form-label">shipping date</label>
       <div class="col-sm-10">
-        <input type="date" #orderDate="ngModel" [(ngModel)]="orderDetails.orderDate" name="shippingdate" required class="form-control" id="shippingdate">
+        <input type="date" #orderDate="ngModel" [(ngModel)]="orderDetails.orderDate" (ngModelChange)="valiDate(orderDetails.orderDate)" name="shippingdate" required class="form-control" id="shippingdate">
       </div>
     </div>
     <div class="form-group row" [ngClass]="{
@@ -54,7 +54,7 @@
     
     <div class="form-group row">
       <div class="offset-sm-2 col-sm-10">
-        <button type="submit" (click)="setOrder()" [disabled]="f.invalid||!orderDetails.orderDate" class="btn btn-primary">order</button>
+        <button type="submit" (click)="setOrder()" [disabled]="f.invalid||!orderDetails.orderDate||!pastdate" class="btn btn-primary">order</button>
       </div>
       {{datefullerr}}
     </div>

@@ -16,10 +16,14 @@ export class OrderdetailsComponent implements OnInit {
   cusDetails:any;
   checkout:any;
   datefullerr:string;
+  pastDate:string;
+  pastdate:any;
+  creditCard:any;
   constructor(private getdata: GetDataService) { }
 
   ngOnInit() {
     console.log(this.orderDetails.orderDate)
+    this.orderDetails.orderDate=null;
   }
   getStreet(){
   this.getdata.getCustomerDetails().subscribe(
@@ -28,7 +32,28 @@ export class OrderdetailsComponent implements OnInit {
       this.orderDetails.price=this.totalPrice}
   )
 }
+valiDate(idate){
+  let today = new Date()
+  today.setHours(-24);
+  today.setMinutes(0);
+  today.setSeconds(0);
+
+  let daystart = today.getTime();
+  let valdate = idate.split("-");
+  console.log(today)
+  console.log(valdate)
+  let validate = new Date(valdate[0], valdate[1]-1 , valdate[2]).getTime();
+  console.log(validate)
+  console.log(daystart)
+  if( (daystart - validate) < 0){
+   this.pastdate=true;
+}else{
+  this.pastdate=false;
+  
+}
+}
 setOrder(){
+  //if(this.valiDate(this.orderDetails.orderDate)){
   this.getdata.setOrder(this.orderDetails).subscribe(
     res=>{this.checkout=res.json();
       console.log(res);
@@ -42,4 +67,8 @@ setOrder(){
   )
 
 }
+// else{
+//   this.datefullerr="you have to enter future date"
+// }
+//}
 }

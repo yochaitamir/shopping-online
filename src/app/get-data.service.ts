@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import {HttpClient} from '@angular/common/http'
+import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Customers} from "./Customers"
-
+import 'rxjs/add/operator/map'
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +12,7 @@ export class GetDataService {
   //public newRegistrant:Customers
  
   
-  constructor(private http: Http) { }
+  constructor(private http: Http, private httpclient:HttpClient) { }
   signin(customer): Observable<Response> {
     
     return this.http.post('http://localhost:8080/signin',customer);
@@ -72,5 +74,22 @@ getDialogQuantity(productId):Observable<Response>{
   return this.http.get('http://localhost:8080/getproductquantity/'+productId)
 
 }
+addNewProduct(newproduct):Observable<Response>{
+  return this.http.post('http://localhost:8080/addnewproduct',newproduct)
 }
-
+upload(fileToUpload: File): Observable<any> {
+  
+  let formData = new FormData();
+  formData.append('fileKey', fileToUpload, fileToUpload.name);
+  console.log(fileToUpload)
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'image/jpg',
+      
+    })
+  };
+  return this.httpclient.post('http://localhost:8080/upload',formData
+    
+  )
+}
+}

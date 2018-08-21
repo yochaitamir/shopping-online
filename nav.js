@@ -3,6 +3,7 @@ var router = express.Router();
 var mysql = require('mysql');
 var path = require('path')
 var fs = require('fs');
+var fileUpload = require('express-fileupload');
 var session = require('express-session')
 module.exports = router;
 var con = mysql.createConnection({
@@ -25,6 +26,7 @@ router.use(express.json());
 router.use(express.urlencoded({
   extended: true
 }));
+router.use(fileUpload());
 // router.get('/getUserDetails', (req, res) => {
 
 // })
@@ -34,7 +36,7 @@ router.use(session({
   resave: true,
   saveUninitialized: true,
   cookie: {
-    expires: new Date(Date.now()+2000000),
+    expires: new Date(Date.now() + 2000000),
     maxAge: 2000000
   }
 }));
@@ -110,10 +112,10 @@ router.post('/compregister', (req, res) => {
 
       req.session.name = req.body.firstName;
       req.session.cusid = req.body.cusid;
-      req.session.cartid=null;
+      req.session.cartid = null;
       //req.session.name = req.body.firstName;
       //req.session.email = req.body.email;
-      
+
 
       res.send('OK');
 
@@ -122,31 +124,31 @@ router.post('/compregister', (req, res) => {
   })
 })
 router.get('/checkforopencart', (req, res) => {
-  if(req.session.cusid){
-  con.query(`SELECT * FROM shopingcart WHERE customerid=${req.session.cusid} AND isopen=0`, (err, rows) => {
-    if (err) {
-      //console.log("err");
-    } else if (rows.length > 0) {
-      console.log("cartopen");
-      req.session.cartid = rows[0].cartid
-      req.session.createdate=rows[0].createDate
-      res.send({
-        "cartopen": true
-      })
-    } else if (rows.length < 1) {
-      console.log("no cartopen");
-      res.send({
-        "cartopen": false
-      })
-    }
-    
-  })
-}else if(!req.session.cusid){
-  console.log("no cartsession");
-  res.send({
-    "cartopen":"yes"
-  })
-}
+  if (req.session.cusid) {
+    con.query(`SELECT * FROM shopingcart WHERE customerid=${req.session.cusid} AND isopen=0`, (err, rows) => {
+      if (err) {
+        //console.log("err");
+      } else if (rows.length > 0) {
+        console.log("cartopen");
+        req.session.cartid = rows[0].cartid
+        req.session.createdate = rows[0].createDate
+        res.send({
+          "cartopen": true
+        })
+      } else if (rows.length < 1) {
+        console.log("no cartopen");
+        res.send({
+          "cartopen": false
+        })
+      }
+
+    })
+  } else if (!req.session.cusid) {
+    console.log("no cartsession");
+    res.send({
+      "cartopen": "yes"
+    })
+  }
 
 })
 
@@ -173,167 +175,219 @@ router.use('/getProductsInCategory/:id', (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      
+
       res.send(JSON.stringify(rows));
     }
   })
 })
-router.post('/startshopping', (req, res,next) => {
+router.post('/startshopping', (req, res, next) => {
   con.query(`INSERT INTO shopingcart( customerId, createDate,isopen) VALUES (${req.session.cusid},NOW(),0)`, (err, rows) => {
     if (err) {
       console.log(err);
-    }
-    else{
+    } else {
       console.log("startshopping")
       con.query(`SELECT cartid FROM shopingcart WHERE customerId=${req.session.cusid} AND isopen=0`, (err, rows) => {
-        if(err){
+        if (err) {
           console.log(err);
-        
-        }else if(rows.length> 0){
-          
-        req.session.cartid = rows[0].cartid
-        next();
-        } else{
+
+        } else if (rows.length > 0) {
+
+          req.session.cartid = rows[0].cartid
+          next();
+        } else {
           next()
-        } 
-        })
-      }
-    })
-    
+        }
+      })
+    }
   })
-       
+
+})
+
 
 router.post('/addproduct', (req, res) => {
-  console.log( "in"+req.session.cartid);
+  console.log("in" + req.session.cartid);
   con.query(`SELECT quantity FROM cartproducts WHERE cartId=${req.session.cartid} AND productId=${req.body.id}`, (err, rows) => {
-    
+
     if (err) {
       console.log(err);
-    } else if(rows.length<1){
-  con.query(`INSERT INTO cartproducts (productId, quantity, price, cartId,productname,measure) VALUES (${req.body.id},${req.body.quantity},${req.body.price},${req.session.cartid},'${req.body.productname}','${req.body.measure}')`, (err, rows) => {
-    if (err) {
-      console.log(err);
+    } else if (rows.length < 1) {
+      con.query(`INSERT INTO cartproducts (productId, quantity, price, cartId,productname,measure) VALUES (${req.body.id},${req.body.quantity},${req.body.price},${req.session.cartid},'${req.body.productname}','${req.body.measure}')`, (err, rows) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send("ok")
+        }
+      })
+    } else {
+      con.query(`UPDATE cartproducts SET quantity=${req.body.quantity} WHERE cartId=${req.session.cartid} AND productId=${req.body.id}`, (err, rows) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send("ok")
+        }
+      })
     }
-    else{
-      res.send("ok")
-    }
-  })}else{
-    con.query(`UPDATE cartproducts SET quantity=${req.body.quantity} WHERE cartId=${req.session.cartid} AND productId=${req.body.id}`, (err, rows) => {
-      if (err) {
-        console.log(err);
-      }
-      else{
-        res.send("ok")
-      }
-    })
-  }
+  })
 })
-})
-router.get('/getcart',(req,res)=>{
-  
+router.get('/getcart', (req, res) => {
+
   con.query(`SELECT * FROM cartproducts WHERE cartId=${req.session.cartid}`, (err, rows) => {
     if (err) {
       console.log(err);
-    }
-    else{
+    } else {
       res.send(JSON.stringify(rows))
     }
   })
 })
-router.get('/getproductquantity/:productId',(req,res)=>{
-  
+router.get('/getproductquantity/:productId', (req, res) => {
+
   con.query(`SELECT quantity FROM cartproducts WHERE cartId=${req.session.cartid} AND productId=${req.params.productId}`, (err, rows) => {
-    
+
     if (err) {
       console.log(err);
-    }
-    else if(rows.length>0){
-      
+    } else if (rows.length > 0) {
+
       res.send(JSON.stringify(rows[0]))
-    }else{
-     
-      res.send({"quantity":null})
+    } else {
+
+      res.send({
+        "quantity": null
+      })
     }
   })
 })
 router.delete('/deleteproduct/:id', (req, res) => {
-  console.log( req.session.cartid); 
+  console.log(req.session.cartid);
   con.query(`DELETE FROM cartproducts WHERE cartId=${req.session.cartid} AND productId=${req.params.id}`, (err, rows) => {
     if (err) {
       console.log(err);
-    }
-    else{
+    } else {
       res.send("deleted")
     }
   })
 
 })
-router.get('/getcustomerdetails',(req,res)=>{
+router.get('/getcustomerdetails', (req, res) => {
   con.query(`SELECT id ,orders.creditCard,customer.cityId,customer.street FROM Orders INNER JOIN Customer ON Orders.customerId=Customer.Cusid WHERE Customer.Cusid='${req.session.cusid}'`, (err, rows) => {
     if (err) {
       console.log(err);
-    }
-    else if(rows.length>0){
+    } else if (rows.length > 0) {
       res.send(JSON.stringify(rows))
       console.log(rows)
-    }else{
-  
-  
-  con.query(`SELECT * FROM customer WHERE cusid=${req.session.cusid}`, (err, rows) => {
-    if (err) {
-      console.log(err);
-    }
-    else{
-      res.send(JSON.stringify(rows))
-    }
-  
+    } else {
 
-})
-}})
-})
-router.post('/setorder', (req, res) => {
-  con.query(`SELECT id FROM orders WHERE cartId=${req.session.cartid}`, (err, rows) => {
-    console.log(rows.length<1);
-    if (err) {console.log(err);
-    }
-    else if(rows.length<1){
-  con.query(`SELECT id FROM orders WHERE orderDate='${req.body.orderDate}'`, (err, rows) => {
-    console.log(rows.length);
-    if (err) {
-      console.log(err);
-    }
-    else if(rows.length<3){
-      console.log(rows.length);
-      
-    
-  con.query(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}','${req.session.createdate}','${req.body.orderDate}',${req.body.creditCard})`, (err, rows) => {
-    if (err) {
-      console.log(err);
-    }
-    else{
-      
-      con.query(`UPDATE shopingcart SET isopen=1 WHERE cartid=${req.session.cartid} AND customerId=${req.session.cusid}`, (err, rows) => {
+
+      con.query(`SELECT * FROM customer WHERE cusid=${req.session.cusid}`, (err, rows) => {
         if (err) {
           console.log(err);
+        } else {
+          res.send(JSON.stringify(rows))
         }
-        else{
-          
-          res.send({"datefull":false})
-        }
+
+
       })
     }
   })
-}else{
-  res.send({"datefull":true})
-}
-})}
-else{
-  res.send({"datefull":"interaction completed"});
-}})
+})
+router.post('/setorder', (req, res) => {
+  con.query(`SELECT id FROM orders WHERE cartId=${req.session.cartid}`, (err, rows) => {
+    console.log(rows.length < 1);
+    if (err) {
+      console.log(err);
+    } else if (rows.length < 1) {
+      con.query(`SELECT id FROM orders WHERE orderDate='${req.body.orderDate}'`, (err, rows) => {
+        console.log(rows.length);
+        if (err) {
+          console.log(err);
+        } else if (rows.length < 3) {
+          console.log(rows.length);
 
+
+          con.query(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}','${req.session.createdate}','${req.body.orderDate}',${req.body.creditCard})`, (err, rows) => {
+            if (err) {
+              console.log(err);
+            } else {
+
+              con.query(`UPDATE shopingcart SET isopen=1 WHERE cartid=${req.session.cartid} AND customerId=${req.session.cusid}`, (err, rows) => {
+                if (err) {
+                  console.log(err);
+                } else {
+
+                  res.send({
+                    "datefull": false
+                  })
+                }
+              })
+            }
+          })
+        } else {
+          res.send({
+            "datefull": true
+          })
+        }
+      })
+    } else {
+      res.send({
+        "datefull": "interaction completed"
+      });
+    }
+  })
+
+})
+router.post('/addnewproduct', (req, res) => {
+
+  con.query(`INSERT INTO product(id, productname, categoryId, price, imageUrl, measure) VALUES (${req.body.id},'${req.body.productname}',${req.body.categoryId},${req.body.price},'${req.body.imageUrl}','${req.body.measure}')`, (err, rows) => {
+
+    if (err) {
+      console.log(err);
+    } else {
+
+
+
+      res.send('OK');
+
+
+    }
+  })
+
+})
+
+router.post('/upload', (req, res) => {
+  console.log("upload")
+  if (!req.files) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  con.query(`SELECT id FROM product ORDER BY id DESC LIMIT 0, 1`, (err, rows) => {
+
+    if (err) {
+      console.log(err);
+    } else {
+      let sampleFile = req.files.fileKey;
+      console.log(rows[0].id)
+      // Use the mv() method to place the file somewhere on your server
+      sampleFile.mv('./uploads/image'+rows[0].id+'.jpg', function (err) {
+        if (err) {
+          return res.status(500).send(err);
+        } else {
+          con.query(`UPDATE product SET imageUrl='image${rows[0].id}.jpg' WHERE id=${rows[0].id}`
+          , (err, rows) => {
+
+            if (err) {
+              console.log(err);
+            } else {
+          res.send({
+            'File': 'ok'
+          });
+        }
+      })
+        }
+      });
+    }
+  })
 })
 
 router.use('*', function (req, res) {
   res.sendFile(path.join(__dirname + '/dist/Shopping-Online/index.html'));
-  
+
 });

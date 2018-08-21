@@ -1,0 +1,83 @@
+
+<div id=productsidebar>
+  <div class="container">
+    <form  novalidate
+    
+        #f="ngForm"
+        id='uploadForm' 
+        
+      method='post' 
+      enctype="multipart/form-data">
+      
+      
+      <div class=inputsize class="form-group row" [ngClass]="{
+        'has-warning': productname.invalid && (productname.dirty || productname.touched),
+        'has-success': productname.valid && (productname.dirty || productname.touched)
+   }">
+        <label for="inputStreet" class="col-sm-2 col-form-label">product name</label>
+        <div class="col-sm-4 col-md-3 col-lg-3">
+          <input type="text" #productname="ngModel"  [(ngModel)]="newproduct.productname" required name="productname" class="form-control" id="inputStreet" placeholder="product name">
+        </div>
+      </div>
+      <div class="form-group row" [class.has-warning]="pastdate==false" [class.has-success]="pastdate==true" [ngClass]="{
+        'has-warning': productid.invalid && (productid.dirty || productid.touched),
+        'has-success': productid.valid && (productid.dirty || productid.touched)
+   }">
+        <label for="inputName" class="col-sm-2 col-form-label">product id</label>
+        <div class="col-sm-4 col-md-3 col-lg-3">
+          <input type="number" #productid="ngModel" [(ngModel)]="newproduct.id"  name="productid" required class="form-control" id="shippingdate" placeholder="product id">
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{
+        'has-warning': productprice.invalid && (productprice.dirty || productprice.touched),
+        'has-success': productprice.valid && (productprice.dirty || productprice.touched)
+   }">
+        <label for="inputPassword3" class="col-sm-2 col-form-label">product price</label>
+        <div class="col-sm-4 col-md-3 col-lg-3">
+          <input type="number" #productprice="ngModel" [(ngModel)]="newproduct.price" name="productprice" required class="form-control" id="creditcard" placeholder="product price">
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{
+        'has-warning': productimg.invalid && (productimg.dirty || productimg.touched),
+        'has-success': productimg.valid && (productimg.dirty || productimg.touched)
+   }">
+        <label for="inputPassword3" class="col-sm-2 col-form-label">product picture</label>
+        <div class="col-sm-4 col-md-3 col-lg-3">
+          <input  type="file" (change)="handleFileInput($event.target.files)" #productimg="ngModel" [(ngModel)]="newproduct.imageUrl" name="productimg" required class="form-control" id="creditcard" placeholder="product picture">
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{
+        'has-warning': categoryId.invalid && (categoryId.dirty || categoryId.touched),
+        'has-success': categoryId.valid && (categoryId.dirty || categoryId.touched)
+   }">
+        <label for="inputPassword3" class="col-sm-2 col-form-label">product category</label>
+        <div class="col-sm-4 col-md-3 col-lg-3">
+          <input type="number" #categoryId="ngModel" [(ngModel)]="newproduct.categoryId" name="productcategory" required class="form-control" id="creditcard" placeholder="product category">
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{
+        'has-warning': measure.invalid && (measure.dirty || measure.touched),
+        'has-success': measure.valid && (measure.dirty || measure.touched)
+   }">
+        <label for="inputPassword3" class="col-sm-2 col-form-label">measure</label>
+        <div class="col-sm-4 col-md-3 col-lg-3">
+          <input type="text" #measure="ngModel" [(ngModel)]="newproduct.measure" name="measure" required class="form-control" id="measure" placeholder="measure">
+        </div>
+      </div>
+      
+      
+      <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+          <button type="submit" (click)="updateProduct()" [disabled]="f.invalid" class="btn btn-primary">update</button>
+          <button type="submit" (click)="addProduct()" [disabled]="f.invalid" class="btn btn-primary">add</button>
+          <button type="submit" (click)="uploadFile()">upload</button>
+        </div>
+       
+      </div>
+    </form>
+  </div>
+</div>
+<div id="productsForAdmindiv"><app-admin-products></app-admin-products></div>
+
+
+

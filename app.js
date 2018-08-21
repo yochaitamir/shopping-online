@@ -4,6 +4,7 @@ var path=require('path');
 var cors=require('cors')
 var mysql = require('mysql');
 session = require('express-session')
+var fileUpload = require('express-fileupload');
 // var con = mysql.createConnection({
 //     host: 'localhost',
 //     user: 'root',
@@ -25,7 +26,7 @@ app.use(cors());
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.static('dist/Shopping-Online'));
-
+app.use(express.static('uploads'));
 app.use(nav);
 
 

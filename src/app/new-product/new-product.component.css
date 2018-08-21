@@ -1,0 +1,18 @@
+#productsidebar{
+    width:50%;
+    height:600px;
+    border:2px solid brown;
+
+}
+#productsForAdmindiv{
+    width:50%;
+    height: 600px;
+    border:2px solid brown;
+    float: left;
+}
+#productsidebar{
+    float: left;
+}
+.inputsize{
+    width:200px;
+}

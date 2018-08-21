@@ -18,7 +18,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {MatDialogModule} from '@angular/material/dialog';
 import { OrderCartComponent } from './order-cart/order-cart.component';
 import { OrderdetailsComponent } from './orderdetails/orderdetails.component';
-
+import { NewProductComponent } from './new-product/new-product.component';
+import { AdminProductsComponent } from './admin-products/admin-products.component';
+import {HttpClientModule} from '@angular/common/http';
+import { ProductsAdminComponent } from './products-admin/products-admin.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +30,12 @@ import { OrderdetailsComponent } from './orderdetails/orderdetails.component';
     RegcompComponent,
     QuantityComponent,
     OrderCartComponent,
-    OrderdetailsComponent
+    OrderdetailsComponent,
+    NewProductComponent,
+    AdminProductsComponent,
+    ProductsAdminComponent,
+    
+
   ],
   imports: [
     
@@ -36,7 +44,7 @@ import { OrderdetailsComponent } from './orderdetails/orderdetails.component';
     HttpModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    
+    HttpClientModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
@@ -60,6 +68,10 @@ import { OrderdetailsComponent } from './orderdetails/orderdetails.component';
           path: 'customer',
           component: CustomerComponent
       },
+      {
+        path: 'admin',
+        component: NewProductComponent
+    },
       {
           path: 'cartOrder',
           component: OrderCartComponent

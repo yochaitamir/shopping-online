@@ -19,6 +19,7 @@ export class OrderdetailsComponent implements OnInit {
   pastDate:string;
   pastdate:any;
   creditCard:any;
+  receipt:boolean=false;
   constructor(private getdata: GetDataService) { }
 
   ngOnInit() {
@@ -60,7 +61,8 @@ setOrder(){
       if(this.checkout.datefull==true){
         this.datefullerr="this date is full please choose another date"
       }else if(this.checkout.datefull==false){
-        this.datefullerr="your order is on its way,thankyou ang come again"
+        this.receipt=true;
+        this.datefullerr="your order is on its way,thankyou and come again"
       }else if(this.checkout.datefull=="interaction completed")
       {this.datefullerr=this.checkout.datefull;
     }}

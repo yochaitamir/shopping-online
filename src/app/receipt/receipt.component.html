@@ -1,0 +1,26 @@
+<div id=reciepe>
+  
+  <button *ngIf="showbutton" id=backtocart (click)="watchReceipt()">watch receipt</button>
+  <div *ngIf="!showbutton" id=cartlist>
+  <table >
+    <tr>  
+        
+        <th>quantity</th>
+        <th>product</th>
+        <th>price </th>
+        <th>sum</th>
+    </tr>
+  <tr *ngFor="let cartproduct of cartproducts">
+  
+    <td>{{cartproduct.quantity}}</td>
+      <td [class.insearch]="cartproduct.productname.includes(searchincartst)&&searchincartst!=''" >{{cartproduct.productname}}</td>
+      <td>{{cartproduct.price| currency:'ILS':"symbol-narrow"}} per:{{cartproduct.measure}}</td>
+      <td>{{cartproduct.price*cartproduct.quantity| currency:'ILS':"symbol-narrow"}}</td>
+  </tr>
+  </table>
+  </div>
+  <div >
+    <h3 *ngIf="total>0" id=totalpricerec>Total price:{{total| currency:'ILS':"symbol-narrow"}}</h3>
+    </div>
+  </div>
+    

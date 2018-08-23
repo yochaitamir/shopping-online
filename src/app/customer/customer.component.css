@@ -46,7 +46,7 @@
     background-color: red;
     width: 70%;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
   }
   
   #map {

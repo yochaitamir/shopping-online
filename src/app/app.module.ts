@@ -22,7 +22,8 @@ import { OrderdetailsComponent } from './orderdetails/orderdetails.component';
 import { NewProductComponent } from './new-product/new-product.component';
 import { AdminProductsComponent } from './admin-products/admin-products.component';
 import {HttpClientModule} from '@angular/common/http';
-import { ProductsAdminComponent } from './products-admin/products-admin.component'
+import { ProductsAdminComponent } from './products-admin/products-admin.component';
+import { ReceiptComponent } from './receipt/receipt.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +36,7 @@ import { ProductsAdminComponent } from './products-admin/products-admin.componen
     NewProductComponent,
     AdminProductsComponent,
     ProductsAdminComponent,
+    ReceiptComponent,
     
 
   ],
@@ -77,7 +79,10 @@ import { ProductsAdminComponent } from './products-admin/products-admin.componen
       {
           path: 'cartOrder',
           component: OrderCartComponent
-      },
+      },{
+        path: 'receipt',
+        component: ReceiptComponent
+    }
       // {
       //     path: '',
       //     redirectTo: "report",

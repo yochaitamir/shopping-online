@@ -17,23 +17,14 @@ table{
   }
   #orderdetails{
       margin-top: 26px;
-      padding-top: 50px;
       float: left;
       width:50%;
       height:400px;
     border :2px solid black;
-    text-align: left;
+    text-align: center;
   }
   #reciepe{
+      margin: 0 auto;
       width:50%;
-    float: left;
-    overflow-y: auto;
-    overflow-x: auto;
+    
   }
-  #backtocart{
-      float: right;
-  }
-  app-orderdetails{
-    text-align: left;
-  }
-  

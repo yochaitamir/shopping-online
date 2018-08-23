@@ -69,9 +69,11 @@ export class RegisterComponent implements OnInit {
                     if (this.valid.customer == "has to register") {
                         this.loginstatus = "has to register";
                     }
-                    else {
+                    else if(this.valid.role=="customer"){
                         this.loginstatus = undefined;
                         window.location.replace("/customer")
+                    }else if(this.valid.role=="manager"){
+                        window.location.replace("/admin")
                     }
                 });
             this.customerDetails = new Customers;

@@ -8,7 +8,8 @@ import { GetDataService } from './get-data.service'
 })
 export class AppComponent {
   userdetails:any
-  name:string
+  name:string;
+  email:string;
   constructor(private getdata: GetDataService) { }
   ngOnInit() {
     this.userDetails();
@@ -20,6 +21,7 @@ export class AppComponent {
           this.name=undefined
         }else{
         this.name=res.json().name;
+        this.email=res.json().email;
         }
       })
     }

@@ -46,7 +46,8 @@ router.get("/getDetails", (req, res, next) => {
   if (req.session.name) {
     console.log("true")
     details = {
-      "name": req.session.name
+      "name": req.session.name,
+      "email":req.session.email
     }
     console.log(JSON.stringify(details));
     res.send(JSON.stringify(details))
@@ -64,22 +65,40 @@ router.get("/getDetails", (req, res, next) => {
 
 router.post('/signin', (req, res) => {
   console.log(req.body)
-  con.query(`SELECT * FROM customer WHERE firstname='${req.body.firstname}' AND password='${req.body.password}'`, (err, rows) => {
+  con.query(`SELECT * FROM customer WHERE firstname='${req.body.firstname}' AND password='${req.body.password}' AND cusid=${req.body.cusid}`, (err, rows) => {
     if (err) {
-      //console.log("err");
+    
     } else if (rows.length > 0) {
-
+      req.session.role = rows[0].role;
+      req.session.email = rows[0].email;
+      
+      if( rows[0].role=="customer"){
       req.session.cusid = rows[0].cusid;
       req.session.name = req.body.firstname;
-      res.send(rows);
-
-    } else {
+      
+      res.send(rows[0]);
+      
+    } else if(rows[0].role=="manager"){
+      req.session.cusid = rows[0].cusid;
+      req.session.name = req.body.firstname;
+      console.log("customer exists")
+      res.send(rows[0]);
+    }}else {
       res.send({
         "customer": "has to register"
       });
     }
   })
 });
+router.get('/checkifadmin', (req, res) => {
+  console.log(req.session.role)
+  if(req.session.role=="manager"){
+   res.send(JSON.stringify({"auth":true}))
+
+  }else{
+    res.send(JSON.stringify({"auth":false}))
+  }
+})
 router.post('/register', (req, res) => {
 
   con.query(`SELECT * FROM customer WHERE cusid=${req.body.cusid}`, (err, rows) => {
@@ -113,6 +132,7 @@ router.post('/compregister', (req, res) => {
       req.session.name = req.body.firstName;
       req.session.cusid = req.body.cusid;
       req.session.cartid = null;
+      req.session.email = req.body.email;
       //req.session.name = req.body.firstName;
       //req.session.email = req.body.email;
 
@@ -386,6 +406,50 @@ router.post('/upload', (req, res) => {
     }
   })
 })
+router.put('/updateproduct/:id', (req, res) => {
+
+  con.query(`UPDATE product SET productname='${req.body.productname}',categoryId=${req.body.categoryId},price=${req.body.price},imageUrl='${req.body.imageUrl}',measure='${req.body.measure}' WHERE id=${req.params.id}`, (err, rows) => {
+
+    if (err) {
+      console.log(err);
+    } else {
+
+
+      
+      res.send('OK');
+
+
+    }
+  })
+
+})
+router.put('/updateupload/:id', function (req, res) {
+  if (!req.files){
+      return res.status(400).send('No files were uploaded.');}
+else{imageid=Math.random()
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  let sampleFile = req.files.fileKey;
+console.log("updating")
+  // Use the mv() method to place the file somewhere on your server
+  sampleFile.mv('./uploads/image'+imageid+'.jpg', function (err) {
+      if (err){
+          return res.status(500).send(err);}
+          else{
+            con.query(`UPDATE product SET imageUrl='image${imageid}.jpg' WHERE id=${req.params.id}`
+            , (err, rows) => {
+  
+              if (err) {
+                console.log(err);
+              } else {
+            res.send({
+              'File': 'ok'
+            });
+          }
+        })
+          }
+  });}
+});
+
 
 router.use('*', function (req, res) {
   res.sendFile(path.join(__dirname + '/dist/Shopping-Online/index.html'));

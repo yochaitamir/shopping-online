@@ -1,6 +1,8 @@
 
+<div *ngIf="show">
 <div id=productsidebar>
   <div class="container">
+      <button type="submit" (click)="addProductbut()">add new product</button>
     <form  novalidate
     
         #f="ngForm"
@@ -19,15 +21,7 @@
           <input type="text" #productname="ngModel"  [(ngModel)]="newproduct.productname" required name="productname" class="form-control" id="inputStreet" placeholder="product name">
         </div>
       </div>
-      <div class="form-group row" [class.has-warning]="pastdate==false" [class.has-success]="pastdate==true" [ngClass]="{
-        'has-warning': productid.invalid && (productid.dirty || productid.touched),
-        'has-success': productid.valid && (productid.dirty || productid.touched)
-   }">
-        <label for="inputName" class="col-sm-2 col-form-label">product id</label>
-        <div class="col-sm-4 col-md-3 col-lg-3">
-          <input type="number" #productid="ngModel" [(ngModel)]="newproduct.id"  name="productid" required class="form-control" id="shippingdate" placeholder="product id">
-        </div>
-      </div>
+      
       <div class="form-group row" [ngClass]="{
         'has-warning': productprice.invalid && (productprice.dirty || productprice.touched),
         'has-success': productprice.valid && (productprice.dirty || productprice.touched)
@@ -37,13 +31,11 @@
           <input type="number" #productprice="ngModel" [(ngModel)]="newproduct.price" name="productprice" required class="form-control" id="creditcard" placeholder="product price">
         </div>
       </div>
-      <div class="form-group row" [ngClass]="{
-        'has-warning': productimg.invalid && (productimg.dirty || productimg.touched),
-        'has-success': productimg.valid && (productimg.dirty || productimg.touched)
-   }">
+      <div class="form-group row" >
         <label for="inputPassword3" class="col-sm-2 col-form-label">product picture</label>
-        <div class="col-sm-4 col-md-3 col-lg-3">
-          <input  type="file" (change)="handleFileInput($event.target.files)" #productimg="ngModel" [(ngModel)]="newproduct.imageUrl" name="productimg" required class="form-control" id="creditcard" placeholder="product picture">
+        <div class="col-sm-4 col-md-3 col-lg-3" >
+          <input  type="file" (change)="handleFileInput($event.target.files)" #productimg  name="productimg" ng-required='!notrequiered' class="form-control" id="creditcard" placeholder="product picture">
+        <span id="filevalidate">{{fileinvalid}}</span>
         </div>
       </div>
       <div class="form-group row" [ngClass]="{
@@ -68,16 +60,16 @@
       
       <div class="form-group row">
         <div class="offset-sm-2 col-sm-10">
-          <button type="submit" (click)="updateProduct()" [disabled]="f.invalid" class="btn btn-primary">update</button>
-          <button type="submit" (click)="addProduct()" [disabled]="f.invalid" class="btn btn-primary">add</button>
-          <button type="submit" (click)="uploadFile()">upload</button>
+          <button *ngIf="editing" type="submit" (click)="updateProduct()" [disabled]="f.invalid" class="btn btn-primary">update</button>
+          <button *ngIf="adding" type="submit" (click)="addProduct()" [disabled]="f.invalid||!fileToUpload" class="btn btn-primary">add</button>
+          
         </div>
        
       </div>
     </form>
   </div>
 </div>
-<div id="productsForAdmindiv"><app-admin-products></app-admin-products></div>
-
+<div id="productsForAdmindiv"><app-admin-products (editing)="onEditing($event)"></app-admin-products></div>
+</div>
 
 

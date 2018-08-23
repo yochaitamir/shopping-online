@@ -36,6 +36,13 @@ compregistered(customer):Observable<Response> {
  return this.http.post('http://localhost:8080/compregister',customer);
  
 }
+valManager():Observable<Response> {
+  
+  
+  
+  return this.http.get('http://localhost:8080/checkifadmin');
+  
+ }
 getUserDetails():Observable<Response>{
   return this.http.get('http://localhost:8080/getDetails');
 }
@@ -89,6 +96,24 @@ upload(fileToUpload: File): Observable<any> {
     })
   };
   return this.httpclient.post('http://localhost:8080/upload',formData
+    
+  )
+}
+updateProduct(editedproduct):Observable<Response>{
+  return this.http.put('http://localhost:8080/updateproduct/'+editedproduct.id,editedproduct)
+}
+updateUpload(fileToUpload: File,prodectId){
+
+  let formData = new FormData();
+  formData.append('fileKey', fileToUpload, fileToUpload.name);
+  console.log(fileToUpload)
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'image/jpg',
+      
+    })
+  };
+  return this.httpclient.put('http://localhost:8080/updateupload/'+prodectId,formData
     
   )
 }

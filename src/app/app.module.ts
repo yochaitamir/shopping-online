@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { Http, Response } from '@angular/http';
 import { HttpModule } from '@angular/http';
+
 import { CustomerComponent } from './customer/customer.component';
 import { RegisterComponent } from './register/register.component';
 import {GetDataService} from './get-data.service';
@@ -45,6 +46,7 @@ import { ProductsAdminComponent } from './products-admin/products-admin.componen
     BrowserAnimationsModule,
     MatDialogModule,
     HttpClientModule,
+    
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),

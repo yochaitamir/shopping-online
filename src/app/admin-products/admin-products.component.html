@@ -11,7 +11,7 @@
   <div id=productsincategory>
      <div  *ngFor="let product of productsInCategory">
        <div id=productsdisplay>
-       <span id=product  (click)="checkForQuantity(product)"><span>{{product.productname}}</span><br>
+       <span id=product  (click)="editProduct(product)"><span>{{product.productname}}</span><br>
        price:<span>{{product.price| currency:'ILS':"symbol-narrow"}}</span><br>per:{{product.measure}}</span>
        <img class=productimage src="{{product.imageUrl}}">
      </div>

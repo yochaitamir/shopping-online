@@ -4,11 +4,10 @@
   <form  novalidate
       
       #f="ngForm">
-    <div class="form-group row">
+    <div (dblclick)="getDet()" class="form-group row">
       <label for="citySelect" class="col-sm-2 col-form-label">City</label>
       <div class="col-sm-10  col-md-3 col-lg-2">
         <select class="form-control" [(ngModel)]="orderDetails.cityId"  required name="city" class="custom-select" id=citySelect>
-          <option  value=3000>Jerusalem</option>
           <option value="3000">Jerusalem</option>
           <option  value="5000" >Tel Aviv</option>
           <option value="4000">Haifa</option>
@@ -24,7 +23,7 @@
         </select>
       </div>
     </div>
-    <div (dblclick)="getStreet()" class="form-group " [ngClass]="{
+    <div (dblclick)="getDet()" class="form-group " [ngClass]="{
       'has-warning': street.invalid && (street.dirty || street.touched),
       'has-success': street.valid && (street.dirty || street.touched)
  }">
@@ -33,19 +32,21 @@
         <input type="text" #street="ngModel"  [(ngModel)]="orderDetails.street" required name="street" class="form-control" id="inputStreet" placeholder="Street">
       </div>
     </div>
-    <div class="form-group " [class.has-warning]="pastdate==false" [class.has-success]="pastdate==true" [ngClass]="{
-      'has-warning': orderDate.invalid && (orderDate.dirty || orderDate.touched),
-      'has-success': orderDate.valid && (orderDate.dirty || orderDate.touched)
+    <div class="form-group "  [ngClass]="{
+      'has-warning': orderDate.invalid ,
+      'has-success': orderDate.valid 
  }">
       <label for="inputName" >shipping date</label>
       <div >
-        <input type="date" #orderDate="ngModel" [(ngModel)]="orderDetails.orderDate" (ngModelChange)="valiDate(orderDetails.orderDate)" name="shippingdate" required class="form-control" id="shippingdate">
+          <input type="text" #orderDate="ngModel" [(ngModel)]="orderDate1"  name="shippingdate" required class="form-control" id="shippingdate">
         
         <span *ngIf="pastdate==false" >Please choose today or a future date</span>
       </div>
     </div>
     
-    <div class="form-group " [ngClass]="{
+    
+    
+    <div (dblclick)="getDet()" class="form-group " [ngClass]="{
       'has-warning': creditCard.invalid && (creditCard.dirty || creditCard.touched),
       'has-success': creditCard.valid && (creditCard.dirty || creditCard.touched)
  }">
@@ -55,13 +56,13 @@
       </div>
     </div>
     
-    
+    {{datefullerr}}
     <div class="form-group row">
       <div class="offset-sm-2 col-sm-10">
-        <button type="submit" (click)="setOrder()" [disabled]="f.invalid||!orderDetails.orderDate||!pastdate" class="btn btn-primary">order</button><br>
-        <button  *ngIf="receipt" routerLink="/receipt" type="submit"  class="btn btn-primary">order</button>
+        <button *ngIf="!receipt" type="submit" (click)="setOrder()" [disabled]="f.invalid" class="btn btn-primary">order</button><br>
+        <button  *ngIf="receipt" routerLink="/receipt" type="submit"  class="btn btn-primary">watch reciept</button>
       </div>
-      {{datefullerr}}
+      
     </div>
   </form>
 </div>

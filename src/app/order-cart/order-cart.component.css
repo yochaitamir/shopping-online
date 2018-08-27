@@ -9,7 +9,7 @@ table{
   }
   #cartlist{
       width:100%;
-      height:400px;
+      height:500px;
       border:2px solid brown;
   }
   .insearch{
@@ -20,7 +20,7 @@ table{
       padding-top: 50px;
       float: left;
       width:50%;
-      height:400px;
+      height:500px;
     border :2px solid black;
     text-align: left;
   }

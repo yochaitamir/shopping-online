@@ -24,6 +24,9 @@ import { AdminProductsComponent } from './admin-products/admin-products.componen
 import {HttpClientModule} from '@angular/common/http';
 import { ProductsAdminComponent } from './products-admin/products-admin.component';
 import { ReceiptComponent } from './receipt/receipt.component'
+import {MatDatepickerModule} from '@angular/material/datepicker'
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +51,10 @@ import { ReceiptComponent } from './receipt/receipt.component'
     BrowserAnimationsModule,
     MatDialogModule,
     HttpClientModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
     
+    MatInputModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),

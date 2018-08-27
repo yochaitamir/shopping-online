@@ -157,6 +157,7 @@ router.get('/checkforopencart', (req, res) => {
         })
       } else if (rows.length < 1) {
         console.log("no cartopen");
+        req.session.createdate=new Date();
         res.send({
           "cartopen": false
         })
@@ -293,7 +294,7 @@ router.get('/getcustomerdetails', (req, res) => {
       console.log(err);
     } else if (rows.length > 0) {
       res.send(JSON.stringify(rows))
-      console.log(rows)
+      
     } else {
 
 
@@ -309,9 +310,20 @@ router.get('/getcustomerdetails', (req, res) => {
     }
   })
 })
+router.get('/getunavailabledates', (req, res) => {
+  con.query(`SELECT orderDate FROM orders`, (err, rows) => {
+    if (err) {
+      console.log(err);
+    } else if (rows.length > 0) {
+      arr=JSON.stringify(rows)
+        
+        
+        res.send(arr)
+    }
+    } )})
 router.post('/setorder', (req, res) => {
   con.query(`SELECT id FROM orders WHERE cartId=${req.session.cartid}`, (err, rows) => {
-    console.log(rows.length < 1);
+   
     if (err) {
       console.log(err);
     } else if (rows.length < 1) {
@@ -320,10 +332,15 @@ router.post('/setorder', (req, res) => {
         if (err) {
           console.log(err);
         } else if (rows.length < 3) {
-          console.log(rows.length);
-
-
-          con.query(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}','${req.session.createdate}','${req.body.orderDate}',${req.body.creditCard})`, (err, rows) => {
+          
+          console.log(req.session.createdate)
+          console.log("strdate is"+req.body.orderDate)
+        //  req.body.orderDate.setHours(+24)
+        //  req.body.orderDate.setMinutes(0)
+        //  req.body.orderDate.setSeconds(0);
+          console.log(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}','${req.session.createdate}','${req.body.orderDate}',${req.body.creditCard})`);
+            
+          con.query(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}','${req.session.createdate}',str_to_date('${req.body.orderDate}',"%d/%m/%y"),${req.body.creditCard})`, (err, rows) => {
             if (err) {
               console.log(err);
             } else {

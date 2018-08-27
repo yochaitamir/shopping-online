@@ -117,4 +117,7 @@ updateUpload(fileToUpload: File,prodectId){
     
   )
 }
+getUnavailDates():Observable<Response>{
+  return this.http.get('http://localhost:8080/getunavailabledates')
+}
 }

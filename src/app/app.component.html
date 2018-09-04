@@ -5,8 +5,10 @@
           <img class=logo alt="Brand" src="/assets/images/supermarketlogo.jpg">
         
         
-      
-      <span id=details>{{name}}     {{email}}</span>
+      <div id=details>
+      <span >{{name}}     {{email}}</span>
+      <button id=logoutbutton (click)="logOut()">logout</button>
     </div>
+  </div>
   </nav>
 <router-outlet></router-outlet> 

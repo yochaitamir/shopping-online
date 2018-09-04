@@ -29,16 +29,16 @@
  }">
       <label for="inputStreet" >street</label>
       <div >
-        <input type="text" #street="ngModel"  [(ngModel)]="orderDetails.street" required name="street" class="form-control" id="inputStreet" placeholder="Street">
+        <input  type="text" #street="ngModel"  [(ngModel)]="orderDetails.street" required name="street" class="form-control" id="inputStreet" placeholder="Street">
       </div>
     </div>
     <div class="form-group "  [ngClass]="{
-      'has-warning': orderDate.invalid ,
-      'has-success': orderDate.valid 
+      
+      
  }">
       <label for="inputName" >shipping date</label>
       <div >
-          <input type="text" #orderDate="ngModel" [(ngModel)]="orderDate1"  name="shippingdate" required class="form-control" id="shippingdate">
+          <input  type="text"  #orderDate="ngModel" [(ngModel)]="orderDate1"  name="shippingdate"  class="form-control" id="shippingdate" (input)="invalid = false">
         
         <span *ngIf="pastdate==false" >Please choose today or a future date</span>
       </div>
@@ -52,7 +52,7 @@
  }">
       <label for="inputPassword3" >credit card number</label>
       <div  >
-        <input type="number" #creditCard="ngModel" [(ngModel)]="orderDetails.creditCard" name="creditcard" required class="form-control" id="creditcard" placeholder="creditcard">
+        <input type="number"  pattern="^[0-9]{4}" #creditCard="ngModel" [(ngModel)]="orderDetails.creditCard" name="creditcard" required class="form-control" id="creditcard" placeholder="creditcard 4 digit number">
       </div>
     </div>
     

@@ -26,6 +26,9 @@ export class RegisterComponent implements OnInit {
     regcomp: boolean;
     compregistered: any;
     backform:boolean;
+    about:boolean=true;
+    orders:number;
+    products:number;
     @ViewChild('f') form: any;
     @ViewChild('c') formcomp: any;
     constructor(private getdata: GetDataService) { }
@@ -39,6 +42,7 @@ export class RegisterComponent implements OnInit {
                     this.regcomp = true;
                     this.show = false;
                     this.backform=true;
+                    
                 }
                 console.log(this.registrant.customer)
             })
@@ -83,16 +87,26 @@ export class RegisterComponent implements OnInit {
         this.show = true
         this.signup = true
         this.registerButton = true;
-        this.signupButton = false
+        this.signupButton = false;
+        this.about=false;
     }
 
     signUpForm() {
+        this.about=false;
         this.show = true
         this.signup = false
         this.registerButton = false;
         this.signupButton = true;
     }
+    getOrders(){
+        this.getdata.getUnavailDates().subscribe(res=>{this.orders = res.json().length}) 
+    }
+    getAllProducts(){
+    this.getdata.getAllProducts().subscribe(res=>{this.products = res.json().length})      
+    }
     ngOnInit() {
+        this.getOrders();
+        this.getAllProducts();
         $(function () {
             $('.button-checkbox').each(function () {
 

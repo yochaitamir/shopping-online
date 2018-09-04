@@ -46,6 +46,9 @@ valManager():Observable<Response> {
 getUserDetails():Observable<Response>{
   return this.http.get('http://localhost:8080/getDetails');
 }
+lastCart(){
+  return this.http.get('http://localhost:8080/lastcart');
+}
 getCategories():Observable<Response>{
   return this.http.get('http://localhost:8080/getCategories');
 }
@@ -119,5 +122,14 @@ updateUpload(fileToUpload: File,prodectId){
 }
 getUnavailDates():Observable<Response>{
   return this.http.get('http://localhost:8080/getunavailabledates')
+}
+getAllProducts(){
+  return this.http.get('http://localhost:8080/getproducts')
+}
+emptyCart(){
+  return this.http.delete('http://localhost:8080/emptycart')
+}
+logOut(){
+  return this.http.post('http://localhost:8080/logout',null)
 }
 }

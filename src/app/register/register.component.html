@@ -8,6 +8,15 @@
       #f="ngForm">
         <h2>WellCome to our shop</h2><h4>if youre a member please <a (click)="signUpForm()">sign in </a>if its your first time please <a (click)="registerForm()">register</a></h4>
         <hr class="colorgraph">
+        <div id=about *ngIf="about"><h4>
+            Get to know Whole Foods Market in the U.K.
+            It doesn't matter if you're a vegan or paleo or omnivore. Maybe you like kale or pizza or mochi,
+             or maybe you value local. That's cool. No matter what you're into, Whole Foods Market is the place to find the tastiest,
+              best version of it. Whatever it is.</h4>
+              <hr class="colorgraph"> 
+        <h2 id=listings>we have {{products}} products in our shop and {{orders}} orders</h2>
+        <hr class="colorgraph">   
+      </div>
         <div *ngIf="show" class="formunit">
         <div class="row" *ngIf="signupButton">
           <div class="col-xs-12 col-sm-6 col-md-6">

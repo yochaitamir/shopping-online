@@ -29,12 +29,18 @@ export class CustomerComponent implements OnInit {
     total:number;
     allowshopping:boolean=false;
     productQuantity:number;
+    lastpurchase:any;
+    practicalDate:string;
+    notification:string;
+    notificationls:string;
+    notificationnewcus:string;
     constructor(private getdata: GetDataService,public dialog: MatDialog,private _elementRef : ElementRef) { }
 
     ngOnInit() {
         this.resize();
         this.getCategories()
         this.checkforopencart()
+        this.lastCart();
         
     }
     checkForQuantity(product){
@@ -106,12 +112,18 @@ export class CustomerComponent implements OnInit {
 
             this.startedcart = false;
             this.allowshopping=true;
+            this.notification=null;
+            this.notificationls=null;
+            this.notificationnewcus=null;
         }
         )
     }
     continuecart() {
         this.allowshopping=true;
         this.continuedcart = false;
+        this.notification=null;
+        this.notificationls=null;
+        this.notificationnewcus=null;
         this.getCart();
 
     }
@@ -123,20 +135,37 @@ export class CustomerComponent implements OnInit {
                 console.log("startedcart")
                 this.startedcart = false;
                 this.continuedcart = true;
-                // this.getCart();
+                let date=new Date(this.cartopen.createDate)
+                console.log(date)
+                this.practicalDate = date.getFullYear() +"-" + (date.getMonth()+1 ) + "-" + (date.getDate())
+            this.notification="you have open cart from"+this.practicalDate;
 
             } else if (this.cartopen.cartopen == false) {
                 this.startedcart = true;
                 this.continuedcart = false
+                if(!this.notificationls){
+                    this.notificationnewcus="New here!!! Wellcome to our ship"
+                }
                 console.log("no startedcart")
             } else {
-
+                
                 this.startedcart = false;
                 this.continuedcart = false
                 console.log("else")
             }
         })
 
+    }
+    lastCart() {
+
+        this.getdata.lastCart().subscribe(res => {
+            if(res.json()[0].createdate){
+            this.lastpurchase=new Date(res.json()[0].createdate);
+            console.log( this.lastpurchase)
+             let practicalDatels = this.lastpurchase.getFullYear() +"-" + (this.lastpurchase.getMonth()+1 ) + "-" + (this.lastpurchase.getDate())
+            this.notificationls="your last shopping was on"+practicalDatels;
+        }
+    })
     }
     addToCart(product: any) {
         this.product = product;
@@ -167,6 +196,11 @@ export class CustomerComponent implements OnInit {
 deleteProduct(product){
     console.log(product.productId)
     this.getdata.deleteProduct(product).subscribe(
+        res=>this.getCart()
+    )
+}
+emptyCart(){
+    this.getdata.emptyCart().subscribe(
         res=>this.getCart()
     )
 }

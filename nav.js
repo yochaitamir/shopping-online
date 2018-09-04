@@ -143,17 +143,33 @@ router.post('/compregister', (req, res) => {
     }
   })
 })
+router.get('/lastcart', (req, res) => {
+  
+    con.query(`SELECT max(createDate) as createdate FROM shopingcart WHERE customerid=${req.session.cusid} AND isopen=1`, (err, rows) => {
+      if (err) {
+        //console.log("err");
+      } else if (rows.length > 0) {
+        console.log(rows)
+        res.send(JSON.stringify(rows))
+      }
+    })
+  })
 router.get('/checkforopencart', (req, res) => {
+  
   if (req.session.cusid) {
+    
     con.query(`SELECT * FROM shopingcart WHERE customerid=${req.session.cusid} AND isopen=0`, (err, rows) => {
       if (err) {
         //console.log("err");
       } else if (rows.length > 0) {
-        console.log("cartopen");
+        
         req.session.cartid = rows[0].cartid
         req.session.createdate = rows[0].createDate
+        console.log( req.session.cartid);
+        console.log( "req.session.cusid");
         res.send({
-          "cartopen": true
+          "cartopen": true,
+          "createDate":rows[0].createDate
         })
       } else if (rows.length < 1) {
         console.log("no cartopen");
@@ -190,6 +206,7 @@ router.use('/getCategories', (req, res) => {
     }
   })
 })
+
 router.use('/getProductsInCategory/:id', (req, res) => {
   con.query(`SELECT * FROM product WHERE categoryId=${req.params.id}`, (err, rows) => {
 
@@ -201,7 +218,20 @@ router.use('/getProductsInCategory/:id', (req, res) => {
     }
   })
 })
+router.get('/getproducts', (req, res) => {
+  con.query(`SELECT * FROM product`, (err, rows) => {
+
+    if (err) {
+      console.log(err);
+    } else {
+
+      res.send(JSON.stringify(rows));
+    }
+  })
+})
+
 router.post('/startshopping', (req, res, next) => {
+  
   con.query(`INSERT INTO shopingcart( customerId, createDate,isopen) VALUES (${req.session.cusid},NOW(),0)`, (err, rows) => {
     if (err) {
       console.log(err);
@@ -288,6 +318,17 @@ router.delete('/deleteproduct/:id', (req, res) => {
   })
 
 })
+router.delete('/emptycart', (req, res) => {
+  console.log(req.session.cartid);
+  con.query(`DELETE FROM cartproducts WHERE cartId=${req.session.cartid}`, (err, rows) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send("deleted")
+    }
+  })
+
+})
 router.get('/getcustomerdetails', (req, res) => {
   con.query(`SELECT id ,orders.creditCard,customer.cityId,customer.street FROM Orders INNER JOIN Customer ON Orders.customerId=Customer.Cusid WHERE Customer.Cusid='${req.session.cusid}'`, (err, rows) => {
     if (err) {
@@ -310,6 +351,7 @@ router.get('/getcustomerdetails', (req, res) => {
     }
   })
 })
+
 router.get('/getunavailabledates', (req, res) => {
   con.query(`SELECT orderDate FROM orders`, (err, rows) => {
     if (err) {
@@ -338,9 +380,9 @@ router.post('/setorder', (req, res) => {
         //  req.body.orderDate.setHours(+24)
         //  req.body.orderDate.setMinutes(0)
         //  req.body.orderDate.setSeconds(0);
-          console.log(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}','${req.session.createdate}','${req.body.orderDate}',${req.body.creditCard})`);
+          
             
-          con.query(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}','${req.session.createdate}',str_to_date('${req.body.orderDate}',"%d/%m/%y"),${req.body.creditCard})`, (err, rows) => {
+          con.query(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}','${req.session.createdate}',str_to_date('${req.body.orderDate}',"%d/%c/%Y"),${req.body.creditCard})`, (err, rows) => {
             if (err) {
               console.log(err);
             } else {
@@ -440,6 +482,7 @@ router.put('/updateproduct/:id', (req, res) => {
   })
 
 })
+
 router.put('/updateupload/:id', function (req, res) {
   if (!req.files){
       return res.status(400).send('No files were uploaded.');}
@@ -466,6 +509,10 @@ console.log("updating")
           }
   });}
 });
+router.post('/logout', (req, res) => {
+  req.session.destroy();
+  res.end();
+})
 
 
 router.use('*', function (req, res) {

@@ -18,6 +18,7 @@ export class NewProductComponent implements OnInit {
   adding:boolean=false
   authorised:any;
   show:boolean;
+  categories:any;
   @ViewChild('f') form: any;
   @ViewChild('productimg') file;
   @ViewChild(AdminProductsComponent ) child;
@@ -26,8 +27,13 @@ export class NewProductComponent implements OnInit {
   
   ngOnInit() {
     this.validateIfManager();
-    
+    this.getCategories();
   }
+  getCategories() {
+    this.getdata.getCategories().subscribe(
+        res => this.categories = res.json()
+    )
+}
   validateIfManager(){
     this.getdata.valManager().subscribe(
       res=>{this.authorised=res.json();
@@ -48,6 +54,7 @@ export class NewProductComponent implements OnInit {
     this.getdata.addNewProduct(this.newproduct).subscribe(
       res=>{console.log(res)
         this.uploadFile();
+        this.refresh();
         }
     )
   }else{
@@ -91,7 +98,8 @@ export class NewProductComponent implements OnInit {
     this.getdata.updateProduct(this.newproduct).subscribe(
       res=>{console.log(res)
         this.updateUpload();
-        }
+        this.refresh();  
+      }
     )
   }
   updateUpload(){

@@ -3,6 +3,9 @@
     
     <div id="cart" class="tab">
         <div style="overflow: auto;">
+            <p *ngIf="notification" id=opencart>{{notification}}</p>
+            <p *ngIf="notificationls" id=opencart>{{notificationls}}</p>
+            <p *ngIf="notificationnewcus" id=opencart>{{notificationnewcus}}</p>
       <button [class.startshopping]="startedcart==false" (click)="startcart()">
         start shopping
       </button>
@@ -30,6 +33,7 @@
     </table>
   </div>
   <button *ngIf="total>0" id=order routerLink="/cartOrder">order</button>
+  <button *ngIf="total>0" (click)="emptyCart()" >empty cart</button>
   <div >
     <h3 *ngIf="total>0" id=totalprice>totalprice:{{total| currency:'ILS':"symbol-narrow"}}</h3>
     </div>

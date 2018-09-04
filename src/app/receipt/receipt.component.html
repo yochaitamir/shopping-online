@@ -1,6 +1,12 @@
-<div id=reciepe>
-  
-  <button *ngIf="showbutton" id=backtocart (click)="watchReceipt()">watch receipt</button>
+<div>
+<div *ngIf="showbutton" id=reciepe>
+  <h2 id=receipttitle>Congratulations</h2>
+  <p>Your purchase has been completed successfully.</p>
+  <p>We thankyou for choosing to shop at our shop.</p>
+  <p>Have a blessed day and please come again.</p>
+  <p>You may watch the receipt by clicking the button below.</p>
+  <button  (click)="watchReceipt()">watch receipt</button>
+  </div>
   <div *ngIf="!showbutton" id=cartlist>
   <table >
     <tr>  

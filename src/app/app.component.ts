@@ -25,4 +25,9 @@ export class AppComponent {
         }
       })
     }
+    logOut(){
+      this.getdata.logOut().subscribe(res=>{
+        window.location.replace("/")
+      }) 
+    }
 }

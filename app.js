@@ -27,6 +27,7 @@ app.use(cors());
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.static('dist/Shopping-Online'));
 app.use(express.static('uploads'));
+app.use(express.static('api'));
 app.use(nav);
 
 

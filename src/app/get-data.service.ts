@@ -15,7 +15,7 @@ export class GetDataService {
   constructor(private http: Http, private httpclient:HttpClient) { }
   signin(customer): Observable<Response> {
     
-    return this.http.post('http://localhost:8080/signin',customer);
+    return this.http.post('/signin',customer);
     
 }
 
@@ -26,66 +26,66 @@ register(customer):Observable<Response> {
   // CUSTOMER.password=customer.password;
   
      
-  return this.http.post('http://localhost:8080/register',customer);
+  return this.http.post('/register',customer);
   
 }
 compregistered(customer):Observable<Response> {
   
   
   
- return this.http.post('http://localhost:8080/compregister',customer);
+ return this.http.post('/compregister',customer);
  
 }
 valManager():Observable<Response> {
   
   
   
-  return this.http.get('http://localhost:8080/checkifadmin');
+  return this.http.get('/checkifadmin');
   
  }
 getUserDetails():Observable<Response>{
-  return this.http.get('http://localhost:8080/getDetails');
+  return this.http.get('/getDetails');
 }
 lastCart(){
-  return this.http.get('http://localhost:8080/lastcart');
+  return this.http.get('/lastcart');
 }
 getCategories():Observable<Response>{
-  return this.http.get('http://localhost:8080/getCategories');
+  return this.http.get('/getCategories');
 }
 getProductsInCategory(categoryId):Observable<Response>{
-  return this.http.get('http://localhost:8080/getProductsInCategory/'+categoryId);
+  return this.http.get('/getProductsInCategory/'+categoryId);
 }
 startShopping():Observable<Response>{
-  return this.http.post('http://localhost:8080/startshopping',null)
+  return this.http.post('/startshopping',null)
 }
 checkforopencart():Observable<Response>{
-  return this.http.get('http://localhost:8080/checkforopencart')
+  return this.http.get('/checkforopencart')
 }
 addToCart(product):Observable<Response>{
-  return this.http.post('http://localhost:8080/addproduct',product)
+  return this.http.post('/addproduct',product)
 
 }
 getCart():Observable<Response>{
-  return this.http.get('http://localhost:8080/getcart')
+  return this.http.get('/getcart')
 }
 deleteProduct(product):Observable<Response>{
   
-return this.http.delete('http://localhost:8080/deleteproduct/'+product.productId)
+return this.http.delete('/deleteproduct/'+product.productId)
 
 
 }
 getCustomerDetails():Observable<Response>{
-  return this.http.get('http://localhost:8080/getcustomerdetails')
+  return this.http.get('/getcustomerdetails')
 }
 setOrder(orderDetails):Observable<Response>{
-  return this.http.post('http://localhost:8080/setorder',orderDetails)
+  return this.http.post('/setorder',orderDetails)
 }
 getDialogQuantity(productId):Observable<Response>{
-  return this.http.get('http://localhost:8080/getproductquantity/'+productId)
+  return this.http.get('/getproductquantity/'+productId)
 
 }
 addNewProduct(newproduct):Observable<Response>{
-  return this.http.post('http://localhost:8080/addnewproduct',newproduct)
+  return this.http.post('/addnewproduct',newproduct)
 }
 upload(fileToUpload: File): Observable<any> {
   
@@ -98,12 +98,12 @@ upload(fileToUpload: File): Observable<any> {
       
     })
   };
-  return this.httpclient.post('http://localhost:8080/upload',formData
+  return this.httpclient.post('/upload',formData
     
   )
 }
 updateProduct(editedproduct):Observable<Response>{
-  return this.http.put('http://localhost:8080/updateproduct/'+editedproduct.id,editedproduct)
+  return this.http.put('/updateproduct/'+editedproduct.id,editedproduct)
 }
 updateUpload(fileToUpload: File,prodectId){
 
@@ -116,20 +116,20 @@ updateUpload(fileToUpload: File,prodectId){
       
     })
   };
-  return this.httpclient.put('http://localhost:8080/updateupload/'+prodectId,formData
+  return this.httpclient.put('/updateupload/'+prodectId,formData
     
   )
 }
 getUnavailDates():Observable<Response>{
-  return this.http.get('http://localhost:8080/getunavailabledates')
+  return this.http.get('/getunavailabledates')
 }
 getAllProducts(){
-  return this.http.get('http://localhost:8080/getproducts')
+  return this.http.get('/getproducts')
 }
 emptyCart(){
-  return this.http.delete('http://localhost:8080/emptycart')
+  return this.http.delete('/emptycart')
 }
 logOut(){
-  return this.http.post('http://localhost:8080/logout',null)
+  return this.http.post('/logout',null)
 }
 }

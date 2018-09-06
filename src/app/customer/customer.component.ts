@@ -127,6 +127,21 @@ export class CustomerComponent implements OnInit {
         this.getCart();
 
     }
+    lastCart() {
+
+        this.getdata.lastCart().subscribe(res => {
+            if(res.json()[0].createdate){
+            this.lastpurchase=new Date(res.json()[0].createdate);
+            console.log( this.lastpurchase)
+             let practicalDatels = this.lastpurchase.getFullYear() +"-" + (this.lastpurchase.getMonth()+1 ) + "-" + (this.lastpurchase.getDate())
+            this.notificationls="your last shopping was on"+practicalDatels;
+            
+        }
+        else if(!this.notificationls&&!this.notification){
+            this.notificationnewcus="New here!!! Wellcome to our ship"
+        }
+    })
+    }
     checkforopencart() {
 
         this.getdata.checkforopencart().subscribe(res => {
@@ -143,9 +158,7 @@ export class CustomerComponent implements OnInit {
             } else if (this.cartopen.cartopen == false) {
                 this.startedcart = true;
                 this.continuedcart = false
-                if(!this.notificationls){
-                    this.notificationnewcus="New here!!! Wellcome to our ship"
-                }
+                
                 console.log("no startedcart")
             } else {
                 
@@ -156,17 +169,7 @@ export class CustomerComponent implements OnInit {
         })
 
     }
-    lastCart() {
-
-        this.getdata.lastCart().subscribe(res => {
-            if(res.json()[0].createdate){
-            this.lastpurchase=new Date(res.json()[0].createdate);
-            console.log( this.lastpurchase)
-             let practicalDatels = this.lastpurchase.getFullYear() +"-" + (this.lastpurchase.getMonth()+1 ) + "-" + (this.lastpurchase.getDate())
-            this.notificationls="your last shopping was on"+practicalDatels;
-        }
-    })
-    }
+    
     addToCart(product: any) {
         this.product = product;
         let newproduct = this.getdata.addToCart(this.product)

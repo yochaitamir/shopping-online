@@ -24,9 +24,10 @@
       <td>{{cartproduct.price*cartproduct.quantity| currency:'ILS':"symbol-narrow"}}</td>
   </tr>
   </table>
+  
+      <h3  *ngIf="total>0" id=totalpricerec>Total price:{{total| currency:'ILS':"symbol-narrow"}}</h3>
+      
   </div>
-  <div >
-    <h3 *ngIf="total>0" id=totalpricerec>Total price:{{total| currency:'ILS':"symbol-narrow"}}</h3>
-    </div>
+  
   </div>
     

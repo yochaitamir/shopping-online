@@ -1,0 +1,261 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ShoppingOnline</title>
+  <base href="/">
+  <style>
+      table,tr,td{
+          border:2px solid black;
+      }
+  </style>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+<table style="width:100%">
+        <tr>
+          <th>description</th>
+          <th >method+path</th>
+          <th >request/response</th>
+        </tr>
+        <tr>
+          <td>signin</td>
+          <td>post/signin</td>
+          <td>request:{firstName:"yochai",
+                lastName:  'tamir',
+                email:  'yoyo@gm.com',
+                 password:  'sus',
+                 city:=3000,
+                 street:   'arie 3',
+                 cusid :   1234
+          }
+          response:{firstName:"yochai",
+          lastName:   'tamir',
+          email:   'yoyo@gm.com',
+           password:   'sus',
+           city:3000,
+           street:   'arie 3',
+           cusid :   1234
+    }
+
+          }
+
+          </td>
+        </tr>
+        <tr>
+            <td>register</td>
+            <td>post/register</td>
+            <td>request:{firstName:"yochai",
+                    lastName:   'tamir',
+                    email:   'yoyo@gm.com',
+                     password:   'sus',
+                     city:3000,
+                     street:   'arie 3',
+                     cusid :   1234
+              }
+              response:{firstName:"yochai",
+              lastName:   'tamir',
+              email:   'yoyo@gm.com',
+               password:   'sus',
+               city:3000,
+               street:   'arie 3',
+               cusid :   1234
+        }
+            </td>
+        </tr>
+        <tr>
+            <td>complete register</td>
+            <td>post/compregister</td>
+            <td>request:{firstName:"yochai",
+                    lastName:   'tamir',
+                    email:   'yoyo@gm.com',
+                     password:   'sus',
+                     city:3000,
+                     str 'arie 3',
+                     cusid :   1234
+              }
+              response:{firstName:"yochai",
+              lastName:   'tamir',
+              email:   'yoyo@gm.com',
+               password:   'sus',
+               city:3000,
+               street:   'arie 3',
+               cusid :   1234
+        }</td>
+        </tr>
+        <tr>
+            <td>check if admin</td>
+            <td>get/checkifadmin</td>
+            <td>response:{"auth":true}
+            </td>
+        </tr>
+        <tr>
+            <td>get details</td>
+            <td>get/getDetails</td>
+            <td>response:{
+                    "name":"yochai",
+                    "email":"yoyo@gm.com"
+                  }</td>
+        </tr>
+        <tr>
+            <td>get details</td>
+            <td>get/lastcart</td>
+            <td>response:{
+                    "createdate":19/11/1974
+                    }</td>
+        </tr>
+        <tr>
+            <td>get categories</td>
+            <td>get/getCategories</td>
+            <td>response:{
+                    "id":1,
+                    "name":"fruit"
+            }</td>
+        </tr>
+        <tr>
+            <td>get products in category</td>
+            <td>get//getProductsInCategory/'+categoryId</td>
+            <td>response:[{
+                   
+                     productname:string"orange",
+                     price:number3,
+                     imageUrl:any"image45635.jpeg",
+                   categoryId:number3,
+                     measure:string"kg"
+                    }]</td>
+        </tr>
+        <tr>
+                <td>start shopping</td>
+                <td>post/startshopping</td>
+                <td></td>
+        </tr>
+        <tr>
+                <td>check for open cart</td>
+                <td>get/checkforopencart</td>
+                <td>{
+                        "cartopen": true,
+                        "createDate":1/9/2018
+                      }</td>
+        </tr>
+        <tr>
+                <td>add product</td>
+                <td>post/addproduct</td>
+                <td>request:[{
+                   
+                        productname:string"orange",
+                        price:number3,
+                        imageUrl:any"image45635.jpeg",
+                      categoryId:number3,
+                        measure:string"kg"
+                       }]
+                    res:"ok"</td>
+        </tr>
+        <tr>
+                <td>get cart</td>
+                <td>get/getcart</td>
+                <td>response:[{
+                    "productid":1,
+                    "quantity":3,
+                    "price":3,
+                    "cartId":105,
+                    "productname":"milky",
+                    "measure":"unit"
+                }]
+                </td>
+        </tr>
+        <tr>
+                <td>delete product</td>
+                <td>delete/deleteproduct/'+productId</td>
+                <td></td>
+        </tr>
+        <tr>
+                <td>get customer details</td>
+                <td>get/getcustomerdetails</td>
+                <td>response:{"city":4000,
+                    "street":"levy 3",
+                    "creditcard":1234}
+
+                </td>
+        </tr>
+        <tr>
+                <td>set order</td>
+                <td>post/setorder</td>
+                <td>request:{
+                    "customerId":6,
+                    "cartId":300,
+                    "price":60,
+                    "cityId":4000,
+                    "street":"echad haam 6",
+                    "date":1/7/2018,
+                    "orderDate":10/6/2018,
+                    creditCard:1234}
+
+                </td>
+        </tr>
+        <tr>
+                <td>get product quantity</td>
+                <td>get/getproductquantity/'+productId</td>
+                <td>response:{"quantity":3}</td>
+        </tr>
+        <tr>
+                <td>add new product</td>
+                <td>post/addnewproduct</td>
+                <td>request:{
+                   
+                        productname:string"orange",
+                        price:number3,
+                        imageUrl:any"image45635.jpeg",
+                      categoryId:number3,
+                        measure:string"kg"
+                       }
+                </td>
+        </tr>
+        <tr>
+                <td>file upload</td>
+                <td>post/upload</td>
+                <td>request:File</td>
+        </tr>
+        <tr>
+                <td>update product</td>
+                <td>put/updateproduct/'+editedproduct.id,editedproduct</td>
+                <td>request:{
+                   
+                        productname:string"orange",
+                        price:number3,
+                        imageUrl:any"image45635.jpeg",
+                      categoryId:number3,
+                        measure:string"kg"
+                       }</td>
+        </tr>
+        <tr>
+                <td>update upload</td>
+                <td>put/updateupload/'+prodectId</td>
+                <td>request:File</td>
+        </tr>
+        <tr>
+                <td>get unavailable dates</td>
+                <td>get/getunavailabledates</td>
+                <td>response:[{"1/9/2018","3/10/2019"</td>
+        </tr>
+        <tr>
+                <td>get products</td>
+                <td>get/getproducts</td>
+                <td>response:[{
+                   
+                        productname:string"orange",
+                        price:number3,
+                        imageUrl:any"image45635.jpeg",
+                      categoryId:number3,
+                        measure:string"kg"
+                       }]</td>
+        </tr>
+        <tr>
+                <td>empty cart</td>
+                <td>delete/emptycart</td>
+                <td></td>
+        </tr>
+        <tr>
+                <td>logout</td>
+                <td>post/logout</td>
+                <td></td>
+        </tr>
+      </table>

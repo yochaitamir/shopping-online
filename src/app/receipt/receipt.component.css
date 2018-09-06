@@ -8,6 +8,7 @@ table{
     border: 1px solid #CCC;
   }
   #cartlist{
+      position:relative;
       margin: 0 auto;
       width:50%;
       min-height:200px;
@@ -35,3 +36,8 @@ table{
   #receipttitle{
       color: red;
   }
+  #totalpricerec{
+        position: absolute;;
+        bottom:0px;
+        right:0px;
+    }

@@ -224,7 +224,7 @@ router.get('/getproducts', (req, res) => {
     if (err) {
       console.log(err);
     } else {
-
+     
       res.send(JSON.stringify(rows));
     }
   })
@@ -356,10 +356,10 @@ router.get('/getunavailabledates', (req, res) => {
   con.query(`SELECT orderDate FROM orders`, (err, rows) => {
     if (err) {
       console.log(err);
-    } else if (rows.length > 0) {
+    } else  {
       arr=JSON.stringify(rows)
         
-        
+      console.log("rows")
         res.send(arr)
     }
     } )})
@@ -375,11 +375,7 @@ router.post('/setorder', (req, res) => {
           console.log(err);
         } else if (rows.length < 3) {
           
-          console.log(req.session.createdate)
-          console.log("strdate is"+req.body.orderDate)
-        //  req.body.orderDate.setHours(+24)
-        //  req.body.orderDate.setMinutes(0)
-        //  req.body.orderDate.setSeconds(0);
+        
           
             
           con.query(`INSERT INTO orders( customerId, cartId, price, cityId, street, date, orderDate, creditCard) VALUES (${req.session.cusid},${req.session.cartid},${req.body.price},${req.body.cityId},'${req.body.street}','${req.session.createdate}',str_to_date('${req.body.orderDate}',"%d/%c/%Y"),${req.body.creditCard})`, (err, rows) => {

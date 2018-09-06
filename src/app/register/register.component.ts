@@ -99,10 +99,18 @@ export class RegisterComponent implements OnInit {
         this.signupButton = true;
     }
     getOrders(){
-        this.getdata.getUnavailDates().subscribe(res=>{this.orders = res.json().length}) 
+        this.getdata.getUnavailDates().subscribe(res=>{this.orders = res.json().length
+        console.log(res)
+            if(this.orders===0){
+            this.orders=0;
+        }
+    }) 
     }
     getAllProducts(){
-    this.getdata.getAllProducts().subscribe(res=>{this.products = res.json().length})      
+    this.getdata.getAllProducts().subscribe(res=>{this.products = res.json().length
+        if(this.products===0){
+            this.products=0;
+        }})      
     }
     ngOnInit() {
         this.getOrders();

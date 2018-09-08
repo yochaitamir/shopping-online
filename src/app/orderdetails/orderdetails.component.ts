@@ -42,13 +42,13 @@ export class OrderdetailsComponent implements OnInit {
   
   
   ngOnInit() {
-    console.log(this.orderDetails.orderDate)
+   
     this.orderDetails.orderDate=null;
-    //this.getUnavailDates();
+   
 
    this.getUnavailDates();
    this.datepicker()
-   //this.nonavail(this.unavailableDates)
+   
    
   }
   
@@ -67,7 +67,7 @@ nonavail(arr):any  {
       for (let [key, value] of Object.entries(obj)) { 
          let dateparse=new Date(key)
         let dayintheweek=dateparse.getDay()
-          console.log(dayintheweek); 
+         
         if(value>2){
          
           
@@ -75,7 +75,7 @@ nonavail(arr):any  {
           let datefor = dateparse.getFullYear() + "-" + (dateparse.getMonth()+1 ) + "-" + (dateparse.getDate()-1)
           let d=this.nonAvailableDates.push(datefor)
         }
-        console.log(this.nonAvailableDates);
+       
         
       }
       
@@ -85,7 +85,7 @@ nonavail(arr):any  {
    let realdate=new Date(date)
    realdate.setHours(realdate.getHours() - 24);
    this.dmy = realdate.getFullYear() +"-" + (realdate.getMonth()+1 ) + "-" + (realdate.getDate());
-  //this.dmy = date.getFullYear() +"-" + (date.getMonth()+1 ) + "-" + (date.getDate()-1);
+  
   
   
   if(date.getDay()===5||date.getDay()===6)
@@ -118,26 +118,7 @@ datepicker(){
       this.orderDetails.price=this.totalPrice}
   )
 }
-// valiDate(idate){
-//   let today = new Date()
-//   today.setHours(-24);
-//   today.setMinutes(0);
-//   today.setSeconds(0);
 
-//   let daystart = today.getTime();
-//   let valdate = idate.split("-");
-//   console.log(today)
-//   console.log(valdate)
-//   let validate = new Date(valdate[0], valdate[1]-1 , valdate[2]).getTime();
-//   console.log(validate)
-//   console.log(daystart)
-//   if( (daystart - validate) < 0){
-//    this.pastdate=true;
-// }else{
-//   this.pastdate=false;
-  
-// }
-// }
 setOrderDate(){
       let today=$( '#shippingdate ').datepicker( "getDate" )
       if(today){
@@ -145,11 +126,11 @@ setOrderDate(){
       let tm=today.getMonth()+1;
       let td=today.getDate();
       this.orderDetails.orderDate=td+"/"+tm+"/"+ty
-      console.log(this.orderDetails.orderDate)
+      
      let regexp = new RegExp("^([0-9]|[1-2][0-9]|(3)[0-1])(\/)(([0-9])|((1)[0-2]))(\/)[0-9]{4}$")
      
      let test = regexp.test(this.orderDetails.orderDate);
-     console.log(test)
+     
      return test}
      else{
       this.datefullerr="please choose a shipping date" 
@@ -158,11 +139,11 @@ setOrderDate(){
 setOrder(){
   if(this.setOrderDate()){
    
-  console.log(this.orderDetails.orderDate)
+  
   this.orderDetails.price=this.totalPrice;
   this.getdata.setOrder(this.orderDetails).subscribe(
     res=>{this.checkout=res.json();
-      console.log(res);
+      
       if(this.checkout.datefull==true){
         this.datefullerr="this date is full please choose another date"
       }else if(this.checkout.datefull==false){
@@ -176,7 +157,7 @@ setOrder(){
 }}
 getUnavailDates(){
   this.getdata.getUnavailDates().subscribe(res=>{this.unavailableDates = res.json()
-    console.log(this.unavailableDates)
+   
     
     
     this.nonavail(this.unavailableDates)})

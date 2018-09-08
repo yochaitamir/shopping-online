@@ -12,9 +12,7 @@
       <button [class.continueshopping]="continuedcart==false" (click)="continuecart()">
         continue shopping
       </button>
-      <!-- <div *ngFor="let cartproduct of cartproducts">
-        <span id=cartproduct >{{cartproduct.quantity}}   {{cartproduct.productname}}   {{cartproduct.price}}</span>
-      </div> -->
+     
       <table *ngIf="allowshopping">
           <tr>  
               <th ></th>

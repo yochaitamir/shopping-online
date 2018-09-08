@@ -52,7 +52,7 @@ export class NewProductComponent implements OnInit {
 
     if(this.fileToUpload){
     this.getdata.addNewProduct(this.newproduct).subscribe(
-      res=>{console.log(res)
+      res=>{
         this.uploadFile();
         this.refresh();
         }
@@ -65,15 +65,13 @@ export class NewProductComponent implements OnInit {
   }
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
-    console.log(this.fileToUpload)
+    
     this.fileinvalid="";
 }
   uploadFile(){
-    // formData = new FormData();
-    // this.formData.append('upload', this.fileToUpload, this.fileToUpload.name);
-    // console.log(this.formData)
+   
     this.getdata.upload(this.fileToUpload).subscribe(
-      res=>{console.log(res)
+      res=>{
         this.child.refreshProducts();
         this.file.nativeElement.value = "";
         this.newproduct=new Product
@@ -96,7 +94,7 @@ export class NewProductComponent implements OnInit {
   }
   updateProduct(){
     this.getdata.updateProduct(this.newproduct).subscribe(
-      res=>{console.log(res)
+      res=>{
         this.updateUpload();
         this.refresh();  
       }
@@ -105,7 +103,7 @@ export class NewProductComponent implements OnInit {
   updateUpload(){
     if(this.fileToUpload){
     this.getdata.updateUpload(this.fileToUpload,this.newproduct.id).subscribe(
-      res=>{console.log(res)
+      res=>{
         this.refresh()
         
         this.file.nativeElement.value = "";

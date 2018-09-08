@@ -44,10 +44,10 @@ export class RegisterComponent implements OnInit {
                     this.backform=true;
                     
                 }
-                console.log(this.registrant.customer)
+                
             })
             
-            console.log(this.customerDetails)
+            
                 
             
 
@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
     }
     compregister(): void {
         
-        console.log(this.customerDetails)
+        
         this.compregistered = this.getdata.compregistered(this.customerDetails)
         
         this.compregistered.subscribe(res => console.log("success"))
@@ -100,7 +100,7 @@ export class RegisterComponent implements OnInit {
     }
     getOrders(){
         this.getdata.getUnavailDates().subscribe(res=>{this.orders = res.json().length
-        console.log(res)
+        
             if(this.orders===0){
             this.orders=0;
         }

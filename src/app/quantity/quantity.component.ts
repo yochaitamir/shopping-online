@@ -19,7 +19,7 @@ measure:string;
      }
 
   ngOnInit() {
-    console.log(this.quantity)
+    
   }
   save() {
     this.dialogRef.close(this.quantity);

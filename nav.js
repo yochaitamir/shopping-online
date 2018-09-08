@@ -15,12 +15,11 @@ var con = mysql.createConnection({
 
 con.connect((err) => {
   if (err) {
-    console.log("Can not connect to DB");
-    console.log(err);
+    
 
     return;
   }
-  console.log('Connected');
+  
 });
 router.use(express.json());
 router.use(express.urlencoded({
@@ -44,15 +43,15 @@ router.use(session({
 router.get("/getDetails", (req, res, next) => {
 
   if (req.session.name) {
-    console.log("true")
+   
     details = {
       "name": req.session.name,
       "email":req.session.email
     }
-    console.log(JSON.stringify(details));
+  
     res.send(JSON.stringify(details))
   } else {
-    //console.log("false")
+    
     res.send({
       "loggedin": false
     })
@@ -64,7 +63,7 @@ router.get("/getDetails", (req, res, next) => {
 
 
 router.post('/signin', (req, res) => {
-  console.log(req.body)
+ 
   con.query(`SELECT * FROM customer WHERE firstname='${req.body.firstname}' AND password='${req.body.password}' AND cusid=${req.body.cusid}`, (err, rows) => {
     if (err) {
     
@@ -81,7 +80,7 @@ router.post('/signin', (req, res) => {
     } else if(rows[0].role=="manager"){
       req.session.cusid = rows[0].cusid;
       req.session.name = req.body.firstname;
-      console.log("customer exists")
+     
       res.send(rows[0]);
     }}else {
       res.send({
@@ -91,7 +90,7 @@ router.post('/signin', (req, res) => {
   })
 });
 router.get('/checkifadmin', (req, res) => {
-  console.log(req.session.role)
+ 
   if(req.session.role=="manager"){
    res.send(JSON.stringify({"auth":true}))
 
@@ -106,7 +105,7 @@ router.post('/register', (req, res) => {
     if (rows.length < 1) {
 
       if (err) {
-        console.log("err");
+       
       } else {
         res.send({
           "customer": "customer can register"
@@ -126,7 +125,7 @@ router.post('/compregister', (req, res) => {
   con.query(`INSERT INTO customer(firstname, lastname,cusid, email,password, cityId, street, role) VALUES ('${req.body.firstName}','${req.body.lastName}',${req.body.cusid},'${req.body.email}','${req.body.password}',${req.body.city},'${req.body.street}','customer')`, (err, rows) => {
 
     if (err) {
-      console.log(err);
+     
     } else {
 
       req.session.name = req.body.firstName;
@@ -147,9 +146,9 @@ router.get('/lastcart', (req, res) => {
   
     con.query(`SELECT max(createDate) as createdate FROM shopingcart WHERE customerid=${req.session.cusid} AND isopen=1`, (err, rows) => {
       if (err) {
-        //console.log("err");
+        
       } else if (rows.length > 0) {
-        console.log(rows)
+        
         res.send(JSON.stringify(rows))
       }
     })
@@ -160,19 +159,18 @@ router.get('/checkforopencart', (req, res) => {
     
     con.query(`SELECT * FROM shopingcart WHERE customerid=${req.session.cusid} AND isopen=0`, (err, rows) => {
       if (err) {
-        //console.log("err");
+        console.log("err");
       } else if (rows.length > 0) {
         
         req.session.cartid = rows[0].cartid
         req.session.createdate = rows[0].createDate
-        console.log( req.session.cartid);
-        console.log( "req.session.cusid");
+       
         res.send({
           "cartopen": true,
           "createDate":rows[0].createDate
         })
       } else if (rows.length < 1) {
-        console.log("no cartopen");
+        
         req.session.createdate=new Date();
         res.send({
           "cartopen": false
@@ -181,7 +179,7 @@ router.get('/checkforopencart', (req, res) => {
 
     })
   } else if (!req.session.cusid) {
-    console.log("no cartsession");
+    
     res.send({
       "cartopen": "yes"
     })
@@ -195,7 +193,7 @@ router.use('/getCategories', (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      //console.log("cat")
+      
 
 
 
@@ -236,7 +234,7 @@ router.post('/startshopping', (req, res, next) => {
     if (err) {
       console.log(err);
     } else {
-      console.log("startshopping")
+     
       con.query(`SELECT cartid FROM shopingcart WHERE customerId=${req.session.cusid} AND isopen=0`, (err, rows) => {
         if (err) {
           console.log(err);
@@ -256,7 +254,7 @@ router.post('/startshopping', (req, res, next) => {
 
 
 router.post('/addproduct', (req, res) => {
-  console.log("in" + req.session.cartid);
+  
   con.query(`SELECT quantity FROM cartproducts WHERE cartId=${req.session.cartid} AND productId=${req.body.id}`, (err, rows) => {
 
     if (err) {
@@ -308,7 +306,7 @@ router.get('/getproductquantity/:productId', (req, res) => {
   })
 })
 router.delete('/deleteproduct/:id', (req, res) => {
-  console.log(req.session.cartid);
+  
   con.query(`DELETE FROM cartproducts WHERE cartId=${req.session.cartid} AND productId=${req.params.id}`, (err, rows) => {
     if (err) {
       console.log(err);
@@ -319,7 +317,7 @@ router.delete('/deleteproduct/:id', (req, res) => {
 
 })
 router.delete('/emptycart', (req, res) => {
-  console.log(req.session.cartid);
+ 
   con.query(`DELETE FROM cartproducts WHERE cartId=${req.session.cartid}`, (err, rows) => {
     if (err) {
       console.log(err);
@@ -359,7 +357,7 @@ router.get('/getunavailabledates', (req, res) => {
     } else  {
       arr=JSON.stringify(rows)
         
-      console.log("rows")
+      
         res.send(arr)
     }
     } )})
@@ -370,7 +368,7 @@ router.post('/setorder', (req, res) => {
       console.log(err);
     } else if (rows.length < 1) {
       con.query(`SELECT id FROM orders WHERE orderDate='${req.body.orderDate}'`, (err, rows) => {
-        console.log(rows.length);
+       
         if (err) {
           console.log(err);
         } else if (rows.length < 3) {
@@ -428,7 +426,7 @@ router.post('/addnewproduct', (req, res) => {
 })
 
 router.post('/upload', (req, res) => {
-  console.log("upload")
+  
   if (!req.files) {
     return res.status(400).send('No files were uploaded.');
   }
@@ -439,8 +437,7 @@ router.post('/upload', (req, res) => {
       console.log(err);
     } else {
       let sampleFile = req.files.fileKey;
-      console.log(rows[0].id)
-      // Use the mv() method to place the file somewhere on your server
+      
       sampleFile.mv('./uploads/image'+rows[0].id+'.jpg', function (err) {
         if (err) {
           return res.status(500).send(err);
@@ -485,7 +482,7 @@ router.put('/updateupload/:id', function (req, res) {
 else{imageid=Math.random()
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   let sampleFile = req.files.fileKey;
-console.log("updating")
+
   // Use the mv() method to place the file somewhere on your server
   sampleFile.mv('./uploads/image'+imageid+'.jpg', function (err) {
       if (err){

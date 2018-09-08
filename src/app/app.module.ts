@@ -11,40 +11,40 @@ import { HttpModule } from '@angular/http';
 
 import { CustomerComponent } from './customer/customer.component';
 import { RegisterComponent } from './register/register.component';
-import {GetDataService} from './get-data.service';
-import { RegcompComponent } from './regcomp/regcomp.component'
-import {Observable} from "rxjs";
+import { GetDataService } from './get-data.service';
+
+import { Observable } from "rxjs";
 import { QuantityComponent } from './quantity/quantity.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
-import {MatDialogModule} from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MatDialogModule } from '@angular/material/dialog';
 import { OrderCartComponent } from './order-cart/order-cart.component';
 import { OrderdetailsComponent } from './orderdetails/orderdetails.component';
 import { NewProductComponent } from './new-product/new-product.component';
 import { AdminProductsComponent } from './admin-products/admin-products.component';
-import {HttpClientModule} from '@angular/common/http';
-import { ProductsAdminComponent } from './products-admin/products-admin.component';
+import { HttpClientModule } from '@angular/common/http';
+
 import { ReceiptComponent } from './receipt/receipt.component'
-import {MatDatepickerModule} from '@angular/material/datepicker'
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material';
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
     CustomerComponent,
     RegisterComponent,
-    RegcompComponent,
+
     QuantityComponent,
     OrderCartComponent,
     OrderdetailsComponent,
     NewProductComponent,
     AdminProductsComponent,
-    ProductsAdminComponent,
+
     ReceiptComponent,
-    
+
 
   ],
   imports: [
-    
+
     FormsModule,
     BrowserModule,
     HttpModule,
@@ -53,48 +53,34 @@ import {MatInputModule} from '@angular/material';
     HttpClientModule,
     MatDatepickerModule,
     MatFormFieldModule,
-    
+
     MatInputModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
     RouterModule.forRoot([
       {
-          path: '',
-          component: RegisterComponent,
-        //   children: [
-        //       {
-        //           path: 'edit/:id',
-        //           component: RouteComponent
-        //       },
-          //     {
-          //         path: "xyz",
-          //         redirectTo: "/add",
-          //         pathMatch: 'prefix'
-          //     }
-           //]
+        path: '',
+        component: RegisterComponent,
+
       },
       {
-          path: 'customer',
-          component: CustomerComponent
+        path: 'customer',
+        component: CustomerComponent
       },
       {
         path: 'admin',
         component: NewProductComponent
-    },
+      },
       {
-          path: 'cartOrder',
-          component: OrderCartComponent
-      },{
+        path: 'cartOrder',
+        component: OrderCartComponent
+      }, {
         path: 'receipt',
         component: ReceiptComponent
-    }
-      // {
-      //     path: '',
-      //     redirectTo: "report",
-      //     pathMatch:'full'
-      // }
-  ], { enableTracing: false })
+      }
+
+    ], { enableTracing: false })
   ],
   providers: [GetDataService],
   bootstrap: [AppComponent],

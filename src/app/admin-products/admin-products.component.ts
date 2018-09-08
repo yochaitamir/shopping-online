@@ -30,14 +30,14 @@ onSelect(category: any): void {
   this.getdata.getProductsInCategory(this.selectedcategory.id).subscribe(
       res => {
       this.productsInCategory = res.json()
-          console.log(this.productsInCategory)
+          
       }
   )
 
 }
 refreshProducts(){
   if(this.selectedcategory){
-    console.log("refreshchild")
+    
     this.onSelect(this.selectedcategory);
     }
 }

@@ -22,7 +22,7 @@ searchincartst:string;
     let cart = this.getdata.getCart()
     cart.subscribe(res => {
         this.cartproducts=res.json()
-        console.log(this.cartproducts)
+       
         this.totaleprice(this.cartproducts)
     },
         e => console.log(e))
@@ -30,7 +30,7 @@ searchincartst:string;
 totaleprice(cartproducts){
     this.total=0;
     for (let price of cartproducts) {
-        console.log(price.quantity)
+        
     this.subtotal=price.price*price.quantity;
     this.total=this.total+this.subtotal;
 }

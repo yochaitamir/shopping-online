@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map'
   providedIn: 'root'
 })
 export class GetDataService {
-  //public newRegistrant:Customers
+ 
  
   
   constructor(private http: Http, private httpclient:HttpClient) { }
@@ -20,10 +20,7 @@ export class GetDataService {
 }
 
 register(customer):Observable<Response> {
-  // this.newRegistrant=CUSTOMER;
-  // CUSTOMER.id=customer.id ;
-  // CUSTOMER.email=customer.email;
-  // CUSTOMER.password=customer.password;
+ 
   
      
   return this.http.post('/register',customer);
@@ -91,7 +88,7 @@ upload(fileToUpload: File): Observable<any> {
   
   let formData = new FormData();
   formData.append('fileKey', fileToUpload, fileToUpload.name);
-  console.log(fileToUpload)
+  
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'image/jpg',
@@ -109,7 +106,7 @@ updateUpload(fileToUpload: File,prodectId){
 
   let formData = new FormData();
   formData.append('fileKey', fileToUpload, fileToUpload.name);
-  console.log(fileToUpload)
+  
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'image/jpg',
